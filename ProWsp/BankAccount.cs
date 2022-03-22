@@ -42,6 +42,15 @@ namespace BankAccountNS
             return clientName;
         }
 
+        public bool isRich()
+        {
+            if(money >= 100000)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public static void Main()
         { 
             BankAccount one = new BankAccount("Jon Smith", 5000);

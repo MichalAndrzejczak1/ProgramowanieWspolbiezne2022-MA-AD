@@ -50,5 +50,19 @@ namespace BankTests
             one.MoneyIn(5);
             Assert.AreEqual(17, one.getMoney());
         }
+
+        [TestMethod]
+        public void isRichTest()
+        {
+            double money1 = 1000;
+            double money2 = 100000;
+
+            BankAccount one = new BankAccount("Jon Smith", money1);
+            BankAccount two = new BankAccount("John Doe", money2);
+
+            Assert.IsFalse(one.isRich());
+            Assert.IsTrue(two.isRich());
+            
+        }
     }
 }
