@@ -1,9 +1,9 @@
 ﻿using System;
 using Data;
 
-namespace BusinessLogic
+namespace Logic
 {
-    public class Logic
+    public class BoardLogic
     {
         private Board _board;
 
