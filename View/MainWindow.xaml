@@ -5,15 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Bouncing Balls" Height="600" Width="800">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" ShowGridLines="False" Width="780" Height="560" Margin="10,10,10,10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="45*" />
-            <RowDefinition Height="172*" />
-
+            <RowDefinition Height="*" />
+            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
-        <TextBlock FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Background="Red" Height="73" Width="88">Top</TextBlock>
-        <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,111,0,111" />
-        <TextBlock Grid.Row="1" FontSize="55" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" Height="73" Width="180">Bottom</TextBlock>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Slider Grid.Column="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,10,0" AutomationProperties.Name="StartingBalls" Minimum="1" Value="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0"/>
+            <Button Grid.Column="1" Margin="10,10,90,10" Content="OK"/>
+            <Button Grid.Column="2" Margin="10,10,10,10" Content="New Ball"/>
+        </Grid>
+        <Canvas Grid.Row="1" Background="#FF249C52" />
     </Grid>
 </Window>
