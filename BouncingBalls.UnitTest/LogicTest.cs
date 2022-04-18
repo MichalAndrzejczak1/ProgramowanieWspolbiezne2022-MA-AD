@@ -4,10 +4,10 @@ using System;
 namespace BouncingBalls.UnitTest
 {
     [TestClass]
-    public class DataTest
+    public class LogicTest
     {
         [TestMethod]
-        public void CreateTest()
+        public void ConstructorTest()
         {
             /*TestLinq2SQLFixcture dataLayerTestingFixture = new TestLinq2SQLFixcture();
             BusinessLogicAbstractAPI model = BusinessLogicAbstractAPI.CreateLayer(dataLayerTestingFixture);
