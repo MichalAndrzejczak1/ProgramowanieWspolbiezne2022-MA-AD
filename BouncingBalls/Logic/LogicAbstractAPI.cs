@@ -21,7 +21,7 @@ namespace BouncingBalls.Logic
             }
 
             private readonly DataLayerAbstractAPI MyDataLayer;
-            private Logic.BallService add = default(Logic.BallService);
+            private BallService add = default(Logic.BallService);
         }
     }
 }
