@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ViewModel;
 
 namespace View
 {
@@ -20,9 +21,13 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
+        private BallsViewModel _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+            _viewModel = new BallsViewModel();
+            DataContext = _viewModel;
         }
     }
 }
