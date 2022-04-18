@@ -29,7 +29,8 @@ namespace View
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
-            /*MainViewModel _vm = (MainViewModel)DataContext;*/
+            MainViewModel _vm = (MainViewModel)DataContext;
+            _vm.canvas = this.MainCanvas;
         }
     }
 }
