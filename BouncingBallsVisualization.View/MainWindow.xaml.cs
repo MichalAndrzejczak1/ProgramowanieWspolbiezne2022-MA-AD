@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ViewModel;
+using BouncingBalls.ViewModel;
 
 namespace View
 {
@@ -21,13 +21,15 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private BallsViewModel _viewModel;
-
         public MainWindow()
         {
             InitializeComponent();
-            _viewModel = new BallsViewModel();
-            DataContext = _viewModel;
+        }
+
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+            /*MainViewModel _vm = (MainViewModel)DataContext;*/
         }
     }
 }

@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:View"
+        xmlns:local="clr-namespace:View" xmlns:vm="clr-namespace:BouncingBalls.ViewModel;assembly=BouncingBallsVisualization"
         mc:Ignorable="d"
         Title="Bouncing Balls" Height="600" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
     <Grid VerticalAlignment="Center" HorizontalAlignment="Center" ShowGridLines="False" Width="780" Height="560" Margin="10,10,10,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -23,8 +26,8 @@
             </Grid.ColumnDefinitions>
             <Slider Name="StartingSlider" Grid.Column="0" HorizontalContentAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,0,10,0" AutomationProperties.Name="StartingBalls" Minimum="1" Value="1" AutoToolTipPlacement="TopLeft" AutoToolTipPrecision="0" IsSnapToTickEnabled="True" TickFrequency="1"/>
             <Label Grid.Column="1" Content="{Binding ElementName=StartingSlider, Path=Value}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10" FontSize="20" />
-            <Button Command="{Binding Path=AddBalls}" CommandParameter="{Binding ElementName=StartingSlider, Path=Value}" Grid.Column="2" Margin="10,10,90,10" Content="OK"/>
-            <Button Command="{Binding Path=AddBall}" Grid.Column="3" Margin="10,10,10,10" Content="New Ball"/>
+            <Button Command="{Binding AddBalls}" CommandParameter="{Binding ElementName=StartingSlider, Path=Value}" Grid.Column="2" Margin="10,10,90,10" Content="OK"/>
+            <Button Command="{Binding AddBall}" Grid.Column="3" Margin="10,10,10,10" Content="New Ball"/>
         </Grid>
         <Canvas Grid.Row="1" Background="#FF249C52" />
     </Grid>
