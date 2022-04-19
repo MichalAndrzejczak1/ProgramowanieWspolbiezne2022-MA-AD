@@ -29,6 +29,6 @@
             <Button Command="{Binding AddBalls}" CommandParameter="{Binding ElementName=StartingSlider, Path=Value}" Grid.Column="2" Margin="10,10,90,10" Content="OK"/>
             <Button Command="{Binding AddBall}" Grid.Column="3" Margin="10,10,10,10" Content="New Ball"/>
         </Grid>
-        <Canvas Name="MainCanvas" Grid.Row="1" Background="#FF249C52" />
+        <Canvas Name="MainCanvas" Grid.Row="1" Background="#FF249C52" Width="770" Height="500" />
     </Grid>
 </Window>

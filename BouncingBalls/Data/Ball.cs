@@ -3,11 +3,11 @@ using System.Drawing;
 
 namespace BouncingBalls.Data
 {
-    internal class Ball : MovingObject
+    public class Ball : MovingObject
     {
-        public float Radius { get; set; }
+        public double Radius { get; set; }
 
-        public Ball(float x, float y, float speedX, float speedY, float radius)
+        public Ball(double x, double y, double speedX, double speedY, double radius)
         {
             X = x;
             Y = y;
@@ -16,7 +16,7 @@ namespace BouncingBalls.Data
             Radius = radius;
         }
 
-        public override void Move(float timeDelta)
+        public override void Move(double timeDelta)
         {
             X += SpeedX * timeDelta;
             Y += SpeedY * timeDelta;

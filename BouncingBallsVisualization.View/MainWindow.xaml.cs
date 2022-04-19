@@ -30,7 +30,8 @@ namespace View
         {
             base.OnInitialized(e);
             MainViewModel _vm = (MainViewModel)DataContext;
-            _vm.canvas = this.MainCanvas;
+            _vm.SetCanvas(this.MainCanvas);
         }
+
     }
 }

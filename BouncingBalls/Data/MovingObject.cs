@@ -4,13 +4,13 @@ using System.Text;
 
 namespace BouncingBalls.Data
 {
-    internal abstract class MovingObject
+    public abstract class MovingObject
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float SpeedX { get; set; }
-        public float SpeedY { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double SpeedX { get; set; }
+        public double SpeedY { get; set; }
 
-        public abstract void Move(float timeDelta);
+        public abstract void Move(double timeDelta);
     }
 }
