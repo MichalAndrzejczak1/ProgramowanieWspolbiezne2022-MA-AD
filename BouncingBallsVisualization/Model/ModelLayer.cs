@@ -1,9 +1,12 @@
 ﻿using BouncingBalls.Logic;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -12,12 +15,14 @@ namespace BouncingBalls.Data
     public class ModelLayer
     {
         public int StartingBalls { get; set; }
+        public bool StartingBallsButton { get => startingBallsButton; set => startingBallsButton = value; }
+
         public Canvas canvas;
 
         public ModelLayer(int width, int height, LogicAbstractAPI bussinesLayer = null)
         {
-            data = bussinesLayer ?? LogicAbstractAPI.CreateLayer(width, height);
             StartingBalls = 1;
+            data = bussinesLayer ?? LogicAbstractAPI.CreateLayer(width, height);
             elipses = new List<Ellipse>();
         }
 
@@ -42,5 +47,6 @@ namespace BouncingBalls.Data
 
         private readonly LogicAbstractAPI data = default(LogicAbstractAPI);
         private readonly List<Ellipse> elipses;
+        private bool startingBallsButton = true;
     }
 }

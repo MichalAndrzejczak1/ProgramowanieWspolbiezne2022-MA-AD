@@ -32,6 +32,5 @@ namespace View
             MainViewModel _vm = (MainViewModel)DataContext;
             _vm.SetCanvas(this.MainCanvas);
         }
-
     }
 }

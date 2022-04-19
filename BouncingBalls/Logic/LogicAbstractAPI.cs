@@ -25,6 +25,7 @@ namespace BouncingBalls.Logic
                 service = new Logic.BallService();
                 boardHeight = height;
                 boardWidth = width;
+                r = new Random();
             }
 
             public override void Add(MovingObject movingObject)
@@ -49,7 +50,6 @@ namespace BouncingBalls.Logic
 
             public override MovingObject Create()
             {
-                Random r = new Random();
                 int ray = r.Next(10, 25);
                 double x = r.NextDouble() * (boardWidth - ray * 2);
                 double y = r.NextDouble() * (boardHeight - ray * 2);
@@ -65,6 +65,7 @@ namespace BouncingBalls.Logic
             private readonly BallService service = default(Logic.BallService);
             private int boardWidth;
             private int boardHeight;
+            private Random r;
         }
     }
 }

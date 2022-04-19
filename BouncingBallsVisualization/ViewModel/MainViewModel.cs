@@ -16,7 +16,17 @@ namespace BouncingBalls.ViewModel
         {
             MyModel = new ModelLayer(770, 500);
             AddBall = new RelayCommand(MyModel.CreateBall);
-            AddBalls = new RelayCommand(MyModel.CreateBalls);
+            AddBalls = new RelayCommand(CreateBalls);
+        }
+
+        public int StartingBalls { get => MyModel.StartingBalls; set => MyModel.StartingBalls = value; }
+        public bool StartingBallsButton { 
+            get => MyModel.StartingBallsButton;
+            set
+            {
+                MyModel.StartingBallsButton = value;
+                RaisePropertyChanged();
+            }
         }
 
         public RelayCommand AddBalls { protected get; set; }
@@ -28,8 +38,13 @@ namespace BouncingBalls.ViewModel
         }
 
         #region Private stuff
-        public ModelLayer MyModel { get; set; }
+        private ModelLayer MyModel { get; set; }
 
+        private void CreateBalls()
+        {
+            MyModel.CreateBalls();
+            StartingBallsButton = false;
+        }
         #endregion
     }
 }
