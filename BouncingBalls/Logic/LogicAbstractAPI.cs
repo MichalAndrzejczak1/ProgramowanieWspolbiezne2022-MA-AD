@@ -10,7 +10,7 @@ namespace BouncingBalls.Logic
 {
     public abstract class LogicAbstractAPI
     {
-        public event EventHandler CordinatesChanged;
+        public abstract event EventHandler CordinatesChanged;
         public abstract void Add(MovingObject movingObject);
         public abstract void Remove(MovingObject movingObject);
         public abstract MovingObject Get(int i);
@@ -19,6 +19,7 @@ namespace BouncingBalls.Logic
         public abstract void Start();
         public abstract void Stop();
         public abstract int Count();
+        public abstract void SetInterval(int miliseconds);
 
 
         public static LogicAbstractAPI CreateLayer(int width, int height, MovingObjectDataLayerAbstractAPI data = default(MovingObjectDataLayerAbstractAPI))
@@ -28,6 +29,8 @@ namespace BouncingBalls.Logic
 
         private class BallLogic : LogicAbstractAPI
         {
+            public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
+
             public BallLogic(int width, int height, MovingObjectDataLayerAbstractAPI dataLayerAPI)
             {
                 dataLayer = dataLayerAPI;
@@ -35,7 +38,9 @@ namespace BouncingBalls.Logic
                 boardHeight = height;
                 boardWidth = width;
                 r = new Random();
-                cancelMovment = new CancellationTokenSource();
+                timer = new DispatcherTimer();
+                SetInterval(30);
+                timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
             }
 
             public override void Add(MovingObject movingObject)
@@ -51,8 +56,6 @@ namespace BouncingBalls.Logic
 
                     service.WallBounce(dataLayer.Get(i), boardWidth, boardHeight);
                 }
-
-                CordinatesChanged?.Invoke(this, EventArgs.Empty);
             }
 
             public override void Remove(MovingObject movingObject)
@@ -78,24 +81,12 @@ namespace BouncingBalls.Logic
 
             public override void Start()
             {
-                if (cancelMovment.IsCancellationRequested) return;
-
-                Task.Factory.StartNew(Run, cancelMovment.Token);
+                timer.Start();
             }
 
             public override void Stop()
             {
-                cancelMovment.Cancel();
-            }
-
-
-            private async void Run()
-            {
-                while (true)
-                {
-                    Update(100);
-                    await Task.Delay(100, cancelMovment.Token).ContinueWith(tsk => { });
-                }
+                timer.Stop();
             }
 
             public override int Count()
@@ -103,12 +94,18 @@ namespace BouncingBalls.Logic
                 return dataLayer.Count();
             }
 
+            public override void SetInterval(int miliseconds)
+            {
+                timer.Interval = TimeSpan.FromMilliseconds(miliseconds);
+            }
+
+
             private readonly MovingObjectDataLayerAbstractAPI dataLayer;
             private readonly BallService service = default(Logic.BallService);
             private int boardWidth;
             private int boardHeight;
             private Random r;
-            private CancellationTokenSource cancelMovment;
+            DispatcherTimer timer;
         }
     }
 }

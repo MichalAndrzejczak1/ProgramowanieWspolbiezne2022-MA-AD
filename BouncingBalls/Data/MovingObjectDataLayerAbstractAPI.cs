@@ -5,10 +5,21 @@ using System.Windows;
 
 namespace BouncingBalls.Data
 {
+    /// <summary>
+    /// Abstrakcyjne API dla danych.
+    /// </summary>
     public abstract class MovingObjectDataLayerAbstractAPI
     {
+        /// <summary>
+        /// Dodaje poruszający się obiekt dodanych.
+        /// </summary>
+        /// <param name="movingObject"></param>
         public abstract void Add(MovingObject movingObject);
-
+        /// <summary>
+        /// Zwraca poruszający się obiekt o konkretnym numerze.
+        /// </summary>
+        /// <param name="i">Numer poruszającego się obiektu.</param>
+        /// <returns>Poruszający się obiekt.</returns>
         public abstract MovingObject Get(int i);
 
         public abstract bool Remove(MovingObject movingObject);

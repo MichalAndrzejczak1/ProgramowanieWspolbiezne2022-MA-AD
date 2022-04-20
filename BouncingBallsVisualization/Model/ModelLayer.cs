@@ -26,13 +26,8 @@ namespace BouncingBalls.Data
         public ModelLayer(int width, int height, LogicAbstractAPI api = null)
         {
             data = api ?? LogicAbstractAPI.CreateLayer(width, height);
-            //data.CordinatesChanged += (sender, args) => UpdateElipsesCords();
-            elipses = new List<Ellipse>();
-
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Tick += (sender, args) => UpdateElipsesCords();
-            timer.Interval = TimeSpan.FromMilliseconds(30);
-            timer.Start();
+            data.CordinatesChanged += (sender, args) => UpdateElipsesCords();
+            ellipses = new List<Ellipse>();
         }
 
         public void CreateBall()
@@ -41,7 +36,7 @@ namespace BouncingBalls.Data
             data.Add(ball);
 
             Ellipse newEllipse = new Ellipse { Width = ball.Radius * 2, Height = ball.Radius * 2, Fill = Brushes.Brown, StrokeThickness = 3, Stroke = Brushes.Black };
-            elipses.Add(newEllipse);
+            ellipses.Add(newEllipse);
 
             Canvas.SetLeft(newEllipse, ball.X);
             Canvas.SetTop(newEllipse, ball.Y);
@@ -64,15 +59,15 @@ namespace BouncingBalls.Data
         {
             for (int i = 0; i < data.Count(); i++)
             {
-                Canvas.SetLeft(elipses[i], data.Get(i).X);
-                Canvas.SetTop(elipses[i], data.Get(i).Y);
+                Canvas.SetLeft(ellipses[i], data.Get(i).X);
+                Canvas.SetTop(ellipses[i], data.Get(i).Y);
             }
         }
 
         private void Update() => data.Update(1000);
 
         private readonly LogicAbstractAPI data = default(LogicAbstractAPI);
-        private readonly List<Ellipse> elipses;
+        private readonly List<Ellipse> ellipses;
         private int startingBalls = 1;
         private bool okIsEnabled = true;
         private bool newBallIsEndabled = true;
