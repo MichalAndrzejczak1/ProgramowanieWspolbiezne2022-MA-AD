@@ -16,10 +16,10 @@ namespace BouncingBalls.Data
             Radius = radius;
         }
 
-        public override void Move(double timeDelta)
+        public override void Move(double miliseconds)
         {
-            X += SpeedX * timeDelta;
-            Y += SpeedY * timeDelta;
+            X += SpeedX * miliseconds;
+            Y += SpeedY * miliseconds;
         }
     }
 }

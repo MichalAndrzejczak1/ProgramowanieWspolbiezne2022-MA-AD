@@ -11,6 +11,6 @@ namespace BouncingBalls.Data
         public double SpeedX { get; set; }
         public double SpeedY { get; set; }
 
-        public abstract void Move(double timeDelta);
+        public abstract void Move(double miliseconds);
     }
 }
