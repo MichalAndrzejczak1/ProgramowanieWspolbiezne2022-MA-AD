@@ -8,7 +8,10 @@ using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
 {
-    public abstract class LogicAbstractAPI
+    /// <summary>
+    /// Abstrakcyjne API do zarządzania poruszaniem się obiektów.
+    /// </summary>
+    public abstract class MovingObjectLogicAbstractAPI
     {
         public abstract event EventHandler CordinatesChanged;
         public abstract void Add(MovingObject movingObject);
@@ -22,12 +25,13 @@ namespace BouncingBalls.Logic
         public abstract void SetInterval(int miliseconds);
 
 
-        public static LogicAbstractAPI CreateLayer(int width, int height, MovingObjectDataLayerAbstractAPI data = default(MovingObjectDataLayerAbstractAPI))
+        public static MovingObjectLogicAbstractAPI CreateLayer(int width, int height, MovingObjectDataLayerAbstractAPI data = default(MovingObjectDataLayerAbstractAPI))
         {
             return new BallLogic(width, height, data ?? MovingObjectDataLayerAbstractAPI.Create());
         }
 
-        private class BallLogic : LogicAbstractAPI
+        #region Layer implementation
+        private class BallLogic : MovingObjectLogicAbstractAPI
         {
             public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
 
@@ -108,4 +112,5 @@ namespace BouncingBalls.Logic
             DispatcherTimer timer;
         }
     }
+    #endregion Layer implementation
 }

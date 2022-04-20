@@ -23,9 +23,9 @@ namespace BouncingBalls.Data
 
         public Canvas canvas;
 
-        public ModelLayer(int width, int height, LogicAbstractAPI api = null)
+        public ModelLayer(int width, int height, MovingObjectLogicAbstractAPI api = null)
         {
-            data = api ?? LogicAbstractAPI.CreateLayer(width, height);
+            data = api ?? MovingObjectLogicAbstractAPI.CreateLayer(width, height);
             data.CordinatesChanged += (sender, args) => UpdateElipsesCords();
             ellipses = new List<Ellipse>();
         }
@@ -54,7 +54,7 @@ namespace BouncingBalls.Data
         public void Stop() => data.Stop();
 
 
-
+        #region Private stuff
         private void UpdateElipsesCords()
         {
             for (int i = 0; i < data.Count(); i++)
@@ -66,12 +66,13 @@ namespace BouncingBalls.Data
 
         private void Update() => data.Update(1000);
 
-        private readonly LogicAbstractAPI data = default(LogicAbstractAPI);
+        private readonly MovingObjectLogicAbstractAPI data = default(MovingObjectLogicAbstractAPI);
         private readonly List<Ellipse> ellipses;
         private int startingBalls = 1;
         private bool okIsEnabled = true;
         private bool newBallIsEndabled = true;
         private bool startIsEndabled = true;
         private bool stopIsEndabled = false;
+        #endregion Private stuff
     }
 }

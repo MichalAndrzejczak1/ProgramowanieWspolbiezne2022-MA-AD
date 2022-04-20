@@ -67,6 +67,6 @@ namespace BouncingBalls.ViewModel
             OKIsEnabled = false;
             NewBallIsEndabled = true;
         }
-        #endregion
+        #endregion Private stuff
     }
 }
