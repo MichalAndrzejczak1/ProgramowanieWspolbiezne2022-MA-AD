@@ -20,6 +20,11 @@ namespace BouncingBalls.Data
             return new Board(); 
         }
 
+        public static MovingObject CreateBall(double x, double y, double speedX, double speedY, double radius)
+        {
+            return new Ball(x, y, speedX, speedY, radius);
+        }
+
         #region Layer implementation
         internal class Board : MovingObjectDataLayerAbstractAPI
         {
