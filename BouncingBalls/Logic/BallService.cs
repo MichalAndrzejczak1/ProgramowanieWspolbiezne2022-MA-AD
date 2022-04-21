@@ -27,13 +27,13 @@ namespace BouncingBalls.Logic
             double down = height - diameter;
 
             // Prawo.
-            if(ball.X < 0)
+            if (ball.X < 0)
             {
                 ball.X = -ball.X;
                 ball.SpeedX = -ball.SpeedX;
             }
             // Lewo.
-            else if(ball.X > right)
+            else if (ball.X > right)
             {
                 ball.X = right - (ball.X - right);
                 ball.SpeedX = -ball.SpeedX;
@@ -51,32 +51,6 @@ namespace BouncingBalls.Logic
                 ball.Y = down - (ball.Y - down);
                 ball.SpeedY = -ball.SpeedY;
             }
-
-
-            
-            if (ball.X > 0)
-            {
-                ball.X = right - (ball.X - right);
-                ball.SpeedX = -ball.SpeedX;
-            }
-            else if (ball.X < right)
-            {
-                ball.X = -ball.X;
-                ball.SpeedX = -ball.SpeedX;
-            }
-
-           
-            if (ball.Y > 0)
-            {
-                ball.Y = down - (ball.Y - down);
-                ball.SpeedY = -ball.SpeedY;
-            }
-            else if (ball.Y < down)
-            {
-                ball.Y = down - (ball.Y - down);
-                ball.SpeedY = -ball.SpeedY;
-            }
-
         }
     }
 }

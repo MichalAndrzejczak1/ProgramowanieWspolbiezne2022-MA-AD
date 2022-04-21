@@ -82,17 +82,14 @@ namespace BouncingBalls.Logic
         {
             return DataAbstractAPI.GetBallRadius(ball);
         }
-        public static double GetBallCircumference(MovingObject ball)
-        {
-            return DataAbstractAPI.GetBallRadius(ball);
-        }
+
         #region Layer implementation
         /// <summary>
         /// Implementacja logiki w postaci poruszających się kul.
         /// </summary>
         internal class BallLogic : LogicAbstractAPI
         {
-            public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
+            public override event EventHandler CordinatesChanged { add => timer.Tick += value; remove => timer.Tick -= value; }
 
             public BallLogic(int width, int height, DataAbstractAPI dataLayerAPI)
             {
@@ -113,7 +110,7 @@ namespace BouncingBalls.Logic
 
             public override void Update(float miliseconds)
             {
-                for(int i=0; i<dataLayer.Count(); i++)
+                for (int i = 0; i < dataLayer.Count(); i++)
                 {
                     dataLayer.Get(i).Move(miliseconds);
 
