@@ -57,6 +57,13 @@ namespace BouncingBalls.ViewModel
             StopIsEndabled = false;
         }
 
+        public void Pause()
+        {
+            MyModel.Stop();
+            StartIsEndabled = true;
+            StopIsEndabled = false;
+        }
+
 
         #region Private stuff
         private ModelLayer MyModel { get; set; }
