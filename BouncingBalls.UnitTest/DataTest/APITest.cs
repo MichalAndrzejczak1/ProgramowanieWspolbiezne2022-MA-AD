@@ -47,6 +47,299 @@ namespace BouncingBalls.UnitTest
             Assert.AreEqual(ball2, api.Get(1));
             Assert.AreEqual(ball3, api.Get(2));
             Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+
+        }
+
+        [Test]
+        public void APIGetterTest()
+        {
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+            Assert.AreEqual(ball, api.Get(0));
+            Assert.AreEqual(ball2, api.Get(1));
+            Assert.AreEqual(ball3, api.Get(2));
+            Assert.AreEqual(ball4, api.Get(3));
+
+
         }
 
         [Test]
