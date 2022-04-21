@@ -23,8 +23,6 @@ namespace BouncingBalls.Data
 
         public Canvas canvas;
 
-        public Grid grid;
-
         public ModelLayer(int width, int height, LogicAbstractAPI api = null)
         {
             data = api ?? LogicAbstractAPI.CreateLayer(width, height);
@@ -47,24 +45,6 @@ namespace BouncingBalls.Data
             canvas.Children.Add(newEllipse);
             //data.Update(1000);
         }
-
-        public void CreateBall1()
-        {
-            MovingObject ball = data.Create();
-            data.Add(ball);
-            double radius = LogicAbstractAPI.GetBallRadius(ball);
-
-            Ellipse newEllipse = new Ellipse { Width = radius * 4, Height = radius * 4, Fill = Brushes.Brown, StrokeThickness = 6, Stroke = Brushes.Black };
-            ellipses.Add(newEllipse);
-
-            Canvas.SetLeft(newEllipse, ball.X);
-            Canvas.SetTop(newEllipse, ball.Y);
-
-            canvas.Children.Add(newEllipse);
-            data.Update(1000);
-        }
-
-
         public void CreateBalls()
         {
             for (int i = 0; i < startingBalls; i++)
