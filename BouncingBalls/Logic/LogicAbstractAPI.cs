@@ -15,6 +15,7 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Dodaje nowy poruszający się obiekt.
         /// </summary>
+        /// <returns>Numer nowo utworzonego obiektu.</returns>
         public abstract int Add();
         /// <summary>
         /// Usuwa poruszający się obiekt z listy obiektów.
