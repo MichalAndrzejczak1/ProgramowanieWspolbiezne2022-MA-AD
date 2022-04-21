@@ -63,6 +63,7 @@ namespace BouncingBalls.Data
                 Canvas.SetLeft(ellipses[i], data.Get(i).X);
                 Canvas.SetTop(ellipses[i], data.Get(i).Y);
             }
+            Trace.WriteLine("Works 2!");
         }
 
         private void Update() => data.Update(1000);
