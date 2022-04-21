@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Threading;
 using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
@@ -69,9 +64,9 @@ namespace BouncingBalls.Logic
         /// <param name="height">Wysokość obszaru, po którym poruszają się kule.</param>
         /// <param name="data">API warstwy danych.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractAPI CreateLayer(int width, int height, DataAbstractAPI data = default(DataAbstractAPI))
+        public static LogicAbstractAPI CreateLayer(int width, int height, DataAbstractAPI data = default(DataAbstractAPI), ATimer timer = default(ATimer))
         {
-            return new BallLogic(width, height, data ?? DataAbstractAPI.Create());
+            return new BallLogic(width, height, data ?? DataAbstractAPI.Create(), timer ?? ATimer.CreateWPFTimer());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -89,16 +84,16 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractAPI
         {
-            public override event EventHandler CordinatesChanged { add => timer.Tick += value; remove => timer.Tick -= value; }
+            public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
 
-            public BallLogic(int width, int height, DataAbstractAPI dataLayerAPI)
+            public BallLogic(int width, int height, DataAbstractAPI dataLayerAPI, ATimer wpfTimer)
             {
                 dataLayer = dataLayerAPI;
                 service = new Logic.BallService();
                 boardHeight = height;
                 boardWidth = width;
                 r = new Random();
-                timer = new DispatcherTimer();
+                timer = wpfTimer;
                 SetInterval(30);
                 timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
             }
@@ -110,7 +105,7 @@ namespace BouncingBalls.Logic
 
             public override void Update(float miliseconds)
             {
-                for (int i = 0; i < dataLayer.Count(); i++)
+                for(int i=0; i<dataLayer.Count(); i++)
                 {
                     dataLayer.Get(i).Move(miliseconds);
 
@@ -182,7 +177,7 @@ namespace BouncingBalls.Logic
             /// <summary>
             /// Klasa zarządzająca aktualizacją położenia kul.
             /// </summary>
-            DispatcherTimer timer;
+            ATimer timer;
         }
     }
     #endregion Layer implementation
