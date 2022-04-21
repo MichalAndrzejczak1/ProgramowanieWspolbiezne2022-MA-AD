@@ -32,11 +32,40 @@ namespace BouncingBalls.UnitTest
             Assert.AreEqual(y, ball.Y);
             Assert.AreEqual(speedX, ball.SpeedX);
             Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
         }
 
         [Test]
         public void SetPropertiesTest()
         {
+            ball.X = x2;
+            Assert.AreEqual(x2, ball.X);
+            ball.Y = y2;
+            Assert.AreEqual(y2, ball.Y);
+            ball.SpeedX = speedX2;
+            Assert.AreEqual(speedX2, ball.SpeedX);
+            ball.SpeedY = speedY2;
+            Assert.AreEqual(speedY2, ball.SpeedY);
+
             ball.X = x2;
             Assert.AreEqual(x2, ball.X);
             ball.Y = y2;
@@ -51,6 +80,9 @@ namespace BouncingBalls.UnitTest
         public void MoveTest()
         {
             ball.Move(timeDelta);
+            Assert.AreEqual(x + speedX * timeDelta, ball.X);
+            Assert.AreEqual(y + speedY * timeDelta, ball.Y);
+
             Assert.AreEqual(x + speedX * timeDelta, ball.X);
             Assert.AreEqual(y + speedY * timeDelta, ball.Y);
         }
