@@ -32,18 +32,18 @@ namespace BouncingBalls.Data
 
         public void CreateBall()
         {
-            MovingObject ball = data.Create();
-            data.Add(ball);
-            double radius = LogicAbstractAPI.GetBallRadius(ball);
+            int ballNumer = data.Add();
+            double radius = LogicAbstractAPI.GetBallRadius(data.Get(ballNumer));
+            double x = data.GetX(ballNumer);
+            double y = data.GetY(ballNumer);
 
             Ellipse newEllipse = new Ellipse { Width = radius * 2, Height = radius * 2, Fill = Brushes.Brown, StrokeThickness = 3, Stroke = Brushes.Black };
             ellipses.Add(newEllipse);
 
-            Canvas.SetLeft(newEllipse, ball.X);
-            Canvas.SetTop(newEllipse, ball.Y);
+            Canvas.SetLeft(newEllipse, x);
+            Canvas.SetTop(newEllipse, y);
 
             canvas.Children.Add(newEllipse);
-            //data.Update(1000);
         }
         public void CreateBalls()
         {

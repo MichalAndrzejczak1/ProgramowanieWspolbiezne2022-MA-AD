@@ -15,8 +15,7 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Dodaje nowy poruszający się obiekt.
         /// </summary>
-        /// <param name="movingObject">Nowy poruszający się obiekt.</param>
-        public abstract void Add(MovingObject movingObject);
+        public abstract int Add();
         /// <summary>
         /// Usuwa poruszający się obiekt z listy obiektów.
         /// </summary>
@@ -34,10 +33,18 @@ namespace BouncingBalls.Logic
         /// <param name="miliseconds">Czas od ostatniej aktualizacji w milisekundach.</param>
         public abstract void Update(float miliseconds);
         /// <summary>
-        /// Tworzy poruszający się obiekt.
+        /// Zwraca położenie w poziomie dla konkretnego obiektu.
         /// </summary>
-        /// <returns>Nowy poruszający się obiekt.</returns>
-        public abstract MovingObject Create();
+        /// <param name="objectNumber">Numer konkretnego obiektu.</param>
+        /// <returns>Położenie w poziomie.</returns>
+        public abstract double GetX(int objectNumber);
+        /// <summary>
+        /// Zwraca położenie w pionie dla konkretnego obiektu.
+        /// </summary>
+        /// <param name="objectNumber">Numer konkretnego obiektu.</param>
+        /// <returns>Położenie w pionie.</returns>
+        public abstract double GetY(int objectNumber);
+
         /// <summary>
         /// Rozpoczyna poruszanie się obiektami.
         /// </summary>
@@ -98,9 +105,16 @@ namespace BouncingBalls.Logic
                 timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
             }
 
-            public override void Add(MovingObject movingObject)
+            public override int Add()
             {
-                dataLayer.Add(movingObject);
+                int ray = r.Next(10, 25);
+                double x = r.NextDouble() * (boardWidth - ray * 2.0);
+                double y = r.NextDouble() * (boardHeight - ray * 2.0);
+                double speedX = (r.NextDouble() - 0.5) / 10.0;
+                double speedY = (r.NextDouble() - 0.5) / 10.0;
+
+                MovingObject ball = DataAbstractAPI.CreateBall(x, y, speedX, speedY, ray);
+                return dataLayer.Add(ball);
             }
 
             public override void Update(float miliseconds)
@@ -116,17 +130,6 @@ namespace BouncingBalls.Logic
             public override void Remove(MovingObject movingObject)
             {
                 dataLayer.Remove(movingObject);
-            }
-
-            public override MovingObject Create()
-            {
-                int ray = r.Next(10, 25);
-                double x = r.NextDouble() * (boardWidth - ray * 2.0);
-                double y = r.NextDouble() * (boardHeight - ray * 2.0);
-                double speedX = (r.NextDouble() - 0.5) / 10.0;
-                double speedY = (r.NextDouble() - 0.5) / 10.0;
-
-                return DataAbstractAPI.CreateBall(x, y, speedX, speedY, ray);
             }
 
             public override MovingObject Get(int i)
@@ -152,6 +155,16 @@ namespace BouncingBalls.Logic
             public override void SetInterval(int miliseconds)
             {
                 timer.Interval = TimeSpan.FromMilliseconds(miliseconds);
+            }
+
+            public override double GetX(int objectNumber)
+            {
+                return dataLayer.Get(objectNumber).X;
+            }
+
+            public override double GetY(int objectNumber)
+            {
+                return dataLayer.Get(objectNumber).Y;
             }
 
             /// <summary>

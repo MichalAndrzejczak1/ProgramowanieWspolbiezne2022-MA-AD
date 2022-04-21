@@ -15,7 +15,8 @@ namespace BouncingBalls.Data
         /// Dodaje poruszający się obiekt dodanych.
         /// </summary>
         /// <param name="movingObject"></param>
-        public abstract void Add(MovingObject movingObject);
+        /// <returns>Numer utworzonego obiektu na liście.</returns>
+        public abstract int Add(MovingObject movingObject);
         /// <summary>
         /// Zwraca poruszający się obiekt o konkretnym numerze.
         /// </summary>
@@ -78,9 +79,10 @@ namespace BouncingBalls.Data
                 balls = new List<MovingObject>();
             }
 
-            public override void Add(MovingObject movingObject)
+            public override int Add(MovingObject movingObject)
             {
                 balls.Add(movingObject);
+                return balls.Count-1;
             }
 
             public override int Count()
