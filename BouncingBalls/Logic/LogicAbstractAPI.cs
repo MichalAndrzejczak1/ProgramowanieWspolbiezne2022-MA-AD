@@ -82,7 +82,10 @@ namespace BouncingBalls.Logic
         {
             return DataAbstractAPI.GetBallRadius(ball);
         }
-
+        public static double GetBallCircumference(MovingObject ball)
+        {
+            return DataAbstractAPI.GetBallRadius(ball);
+        }
         #region Layer implementation
         /// <summary>
         /// Implementacja logiki w postaci poruszających się kul.
