@@ -33,6 +33,6 @@
             <Button Command="{Binding StartMovement}" IsEnabled="{Binding StartIsEndabled}" Grid.Column="4" Margin="10,10,10,10" Content="Start"/>
             <Button Command="{Binding StopMovement}" IsEnabled="{Binding StopIsEndabled}" Grid.Column="5" Margin="10,10,10,10" Content="Stop"/>
         </Grid>
-        <Canvas Name="MainCanvas" Grid.Row="1" Background="#FF249C52" Width="770" Height="500" />
+        <ContentPresenter Content="{Binding Canvas}" Grid.Row="1" Width="770" Height="500"/>
     </Grid>
 </Window>

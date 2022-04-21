@@ -102,13 +102,33 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void MockAPIGetTest()
+        public void MockAPIStartTest()
         {
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
-            balls.Add(o);
-            dataAPI.Setup(x => x.Get(0)).Returns(balls[0]);
+            bool state = false;
+            timer.Setup(x => x.Start()).Callback(() => state = true);
+            logic.Start();
 
-            Assert.AreEqual(o, logic.Get(0));
+            Assert.IsTrue(state);
+        }
+
+        [Test]
+        public void MockAPIStopTest()
+        {
+            bool state = true;
+            timer.Setup(x => x.Stop()).Callback(() => state = false);
+            logic.Stop();
+
+            Assert.IsFalse(state);
+        }
+
+        [Test]
+        public void MockAPISetIntervalTest()
+        {
+            System.TimeSpan ms = System.TimeSpan.FromMilliseconds(200);
+            timer.SetupSet(x => x.Interval = ms);
+            logic.SetInterval(200);
+
+            Assert.AreEqual(200, ms.Milliseconds);
         }
     }
 }

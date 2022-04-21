@@ -25,12 +25,5 @@ namespace View
         {
             InitializeComponent();
         }
-
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-            MainViewModel _vm = (MainViewModel)DataContext;
-            _vm.SetCanvas(this.MainCanvas);
-        }
     }
 }
