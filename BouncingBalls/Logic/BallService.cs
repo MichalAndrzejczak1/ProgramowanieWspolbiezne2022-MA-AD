@@ -12,28 +12,6 @@ namespace BouncingBalls.Logic
     internal class BallService
     {
         /// <summary>
-        /// Dodaje nową kulę do wskazanego API.
-        /// </summary>
-        /// <param name="data">API dla kul.</param>
-        /// <param name="x">Położenie w poziomie.</param>
-        /// <param name="y">Położenie w pionie.</param>
-        /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
-        /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
-        /// <param name="radius">Promień kuli.</param>
-        public void Add(MovingObjectDataLayerAbstractAPI data, double x, double y, double speedX, double speedY, double radius)
-        {
-            data.Add(new Ball(x, y, speedX, speedY, radius));
-        }
-        /// <summary>
-        /// Dodaje nową kulę do wskazanego API.
-        /// </summary>
-        /// <param name="data">API dla kul.</param>
-        /// <param name="movingObject">Wcześniej utworzona kula.</param>
-        public void Add(MovingObjectDataLayerAbstractAPI data, MovingObject movingObject)
-        {
-            data.Add(movingObject);
-        }
-        /// <summary>
         /// Odbija kule od ściany, jeśli kula dotarła do ściany.
         /// </summary>
         /// <param name="ball">Poruszająca się kula.</param>
@@ -42,7 +20,7 @@ namespace BouncingBalls.Logic
         public void WallBounce(MovingObject ball, int width, int height)
         {
             // Średnica kuli.
-            double diameter = ((Ball)ball).Radius * 2;
+            double diameter = DataAbstractAPI.GetBallRadius(ball) * 2;
             // Prawa ściana nie licząc średnicy kuli.
             double right = width - diameter;
             // Prawa Dolna nie licząc średnicy kuli.

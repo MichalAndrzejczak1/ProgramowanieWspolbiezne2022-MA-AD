@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using static BouncingBalls.Data.MovingObject;
 
 namespace BouncingBalls.Data
 {
     /// <summary>
     /// Abstrakcyjne API dla danych.
     /// </summary>
-    public abstract class MovingObjectDataLayerAbstractAPI
+    public abstract class DataAbstractAPI
     {
         /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
@@ -36,7 +37,7 @@ namespace BouncingBalls.Data
         /// Tworzy implementację abstrakcyjnego API w postaci tablicy kul.
         /// </summary>
         /// <returns>Implementacja API w postaci tablicy poruszających się kul.</returns>
-        public static MovingObjectDataLayerAbstractAPI Create()
+        public static DataAbstractAPI Create()
         {
             return new Board(); 
         }
@@ -53,12 +54,21 @@ namespace BouncingBalls.Data
         {
             return new Ball(x, y, speedX, speedY, radius);
         }
+        /// <summary>
+        /// Zwraca promień kuli.
+        /// </summary>
+        /// <param name="ball">Kula.</param>
+        /// <returns>Promień kuli.</returns>
+        public static double GetBallRadius(MovingObject ball)
+        {
+            return ((Ball)ball).Radius;
+        }
 
         #region Layer implementation
         /// <summary>
         /// Implementacja API w postaci tablicy poruszających się kul.
         /// </summary>
-        internal class Board : MovingObjectDataLayerAbstractAPI
+        internal class Board : DataAbstractAPI
         {
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.

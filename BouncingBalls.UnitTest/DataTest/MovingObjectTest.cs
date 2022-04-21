@@ -16,13 +16,13 @@ namespace BouncingBalls.UnitTest
 
         public MovingObjectDataTest()
         {
-            ball = MovingObjectDataLayerAbstractAPI.CreateBall(x, y, speedX, speedY, radius);
+            ball = DataAbstractAPI.CreateBall(x, y, speedX, speedY, radius);
         }
 
         [SetUp]
         public void Setup()
         {
-            ball = MovingObjectDataLayerAbstractAPI.CreateBall(x, y, speedX, speedY, radius);
+            ball = DataAbstractAPI.CreateBall(x, y, speedX, speedY, radius);
         }
 
         [Test]

@@ -6,22 +6,22 @@ namespace BouncingBalls.UnitTest
 {
     public class DataAPITest
     {
-        private MovingObjectDataLayerAbstractAPI api;
+        private DataAbstractAPI api;
         private MovingObject ball, ball2, ball3, ball4;
 
         public DataAPITest()
         {
-            api = MovingObjectDataLayerAbstractAPI.Create();
-            ball = MovingObjectDataLayerAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball2 = MovingObjectDataLayerAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball3 = MovingObjectDataLayerAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball4 = MovingObjectDataLayerAbstractAPI.CreateBall(1, 2, 3, 4, 5);
+            api = DataAbstractAPI.Create();
+            ball = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
+            ball2 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
+            ball3 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
+            ball4 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
         }
 
         [SetUp]
         public void Setup()
         {
-            api = MovingObjectDataLayerAbstractAPI.Create();
+            api = DataAbstractAPI.Create();
             api.Add(ball);
             api.Add(ball2);
             api.Add(ball3);

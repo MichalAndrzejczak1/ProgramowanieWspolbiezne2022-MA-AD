@@ -21,8 +21,8 @@ namespace BouncingBalls.UnitTest
         [Test]
         public void MockTest()
         {
-            var dataAPI = new Mock<MovingObjectDataLayerAbstractAPI>();
-            var logic = MovingObjectLogicAbstractAPI.CreateLayer(100, 100, dataAPI.Object);
+            var dataAPI = new Mock<DataAbstractAPI>();
+            var logic = LogicAbstractAPI.CreateLayer(100, 100, dataAPI.Object);
         }
     }
 }
