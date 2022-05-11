@@ -11,7 +11,7 @@ namespace BouncingBalls.UnitTest
 
         public DataApiTest()
         {
-            api = DataAbstractApi.Create(100, 100);
+            api = DataAbstractApi.Create();
             ball = DataAbstractApi.CreateBall(1, 1, 2, 3, 4, 5);
             ball2 = DataAbstractApi.CreateBall(2, 1, 2, 3, 4, 5);
             ball3 = DataAbstractApi.CreateBall(3, 1, 2, 3, 4, 5);
@@ -21,7 +21,7 @@ namespace BouncingBalls.UnitTest
         [SetUp]
         public void Setup()
         {
-            api = DataAbstractApi.Create(100, 100);
+            api = DataAbstractApi.Create();
             api.Add(ball);
             api.Add(ball2);
             api.Add(ball3);
