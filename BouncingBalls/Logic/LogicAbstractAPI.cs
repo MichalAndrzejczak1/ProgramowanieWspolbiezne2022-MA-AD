@@ -57,8 +57,8 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Aktualizuje pozycje poruszających się obiektów po podanym czasie w milisekundach.
         /// </summary>
-        /// <param name="miliseconds">Czas od ostatniej aktualizacji w milisekundach.</param>
-        public abstract void Update(float miliseconds);
+        /// <param name="interval">Czas od ostatniej aktualizacji w milisekundach.</param>
+        public abstract void Update(float interval);
         /// <summary>
         /// Zwraca położenie w poziomie dla konkretnego obiektu.
         /// </summary>
@@ -100,7 +100,7 @@ namespace BouncingBalls.Logic
         /// <returns>API logiki.</returns>
         public static LogicAbstractApi CreateLayer(int width, int height, DataAbstractApi data = default(DataAbstractApi), ATimer timer = default(ATimer))
         {
-            return new BallLogic(width, height, data ?? DataAbstractApi.Create(), timer ?? ATimer.CreateWpfTimer());
+            return new BallLogic(data ?? DataAbstractApi.Create(width, height), timer ?? ATimer.CreateWpfTimer());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -121,12 +121,10 @@ namespace BouncingBalls.Logic
             //public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
             public override event EventHandler CordinatesChanged;
 
-            public BallLogic(int width, int height, DataAbstractApi dataLayerApi, ATimer wpfTimer)
+            public BallLogic(DataAbstractApi dataLayerApi, ATimer wpfTimer)
             {
                 dataLayer = dataLayerApi;
                 service = new Logic.BallService();
-                boardHeight = height;
-                boardWidth = width;
                 r = new Random();
                 timer = wpfTimer;
                 SetInterval(30);
@@ -141,8 +139,8 @@ namespace BouncingBalls.Logic
                 {
                     //var ray = r.Next(10, 25);
                     var ray = 15;
-                    var x = r.NextDouble() * (boardWidth - ray * 2.0);
-                    var y = r.NextDouble() * (boardHeight - ray * 2.0);
+                    var x = r.NextDouble() * (dataLayer.BoardWidth - ray * 2.0);
+                    var y = r.NextDouble() * (dataLayer.BoardHeight - ray * 2.0);
                     var speedX = (r.NextDouble() - 0.5) / 2.0;
                     var speedY = (r.NextDouble() - 0.5) / 2.0;
 
@@ -157,16 +155,16 @@ namespace BouncingBalls.Logic
                 }
             }
 
-            public override void Update(float miliseconds)
+            public override void Update(float interval)
             {
                 mutex.WaitOne();
                 if (isWorking)
                 {
                     for(int i=0; i<dataLayer.Count(); i++)
                     {
-                        dataLayer.Get(i).Move(miliseconds);
+                        dataLayer.Get(i).Move(interval);
 
-                        service.WallBounce(dataLayer.Get(i), boardWidth, boardHeight);
+                        service.WallBounce(dataLayer.Get(i), dataLayer.BoardWidth, dataLayer.BoardHeight);
                         service.BallBounce(dataLayer.GetAll(), i);
                     }
                     CordinatesChanged?.Invoke(this, EventArgs.Empty);
@@ -176,7 +174,9 @@ namespace BouncingBalls.Logic
 
             public override void Remove(MovingObject movingObject)
             {
+                mutex.WaitOne();
                 dataLayer.Remove(movingObject);
+                mutex.ReleaseMutex();
             }
 
             public override MovingObject Get(int i)
@@ -224,14 +224,6 @@ namespace BouncingBalls.Logic
             /// Usługa dla poruszających się kul.
             /// </summary>
             private readonly BallService service = default(Logic.BallService);
-            /// <summary>
-            /// Szerokość obszaru, po którym poruszają się kule.
-            /// </summary>
-            private int boardWidth;
-            /// <summary>
-            /// Wysokość obszaru, po którym poruszają się kule.
-            /// </summary>
-            private int boardHeight;
             /// <summary>
             /// Generator liczb pseudolosowych.
             /// </summary>

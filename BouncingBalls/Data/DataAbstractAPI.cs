@@ -12,6 +12,14 @@ namespace BouncingBalls.Data
     public abstract class DataAbstractApi
     {
         /// <summary>
+        /// Szerokość obszaru, po którym poruszają się kule.
+        /// </summary>
+        public int BoardWidth { get; set; }
+        /// <summary>
+        /// Wysokość obszaru, po którym poruszają się kule.
+        /// </summary>
+        public int BoardHeight { get; set; }
+        /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
         /// </summary>
         /// <param name="movingObject"></param>
@@ -42,10 +50,12 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Tworzy implementację abstrakcyjnego API w postaci tablicy kul.
         /// </summary>
+        /// <param name="width">Szerokość planszy po której poruszają się kule.</param>
+        /// <param name="height">Wysokość planszy po której poruszają się kule.</param>
         /// <returns>Implementacja API w postaci tablicy poruszających się kul.</returns>
-        public static DataAbstractApi Create()
+        public static DataAbstractApi Create(int width, int height)
         {
-            return new Board(); 
+            return new Board(width, height);
         }
         /// <summary>
         /// Tworzy nową poruszającą się kulę.
@@ -79,11 +89,18 @@ namespace BouncingBalls.Data
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.
             /// </summary>
-            internal Board()
+            /// <param name="width">Szerokość planszy po której poruszają się kule.</param>
+            /// <param name="height">Wysokość planszy po której poruszają się kule.</param>
+            internal Board(int width, int height)
             {
                 balls = new List<MovingObject>();
+                BoardWidth = width;
+                BoardHeight = height;
             }
 
+            /// <summary>
+            /// Szerokość obszaru, po którym poruszają się kule.
+            /// </summary>
             public override int Add(MovingObject movingObject)
             {
                 balls.Add(movingObject);
