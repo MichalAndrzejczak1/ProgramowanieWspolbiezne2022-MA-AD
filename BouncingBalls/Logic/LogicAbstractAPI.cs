@@ -1,10 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
 {
+    public class PeriodicTask
+    {
+        public static async Task Run(Action action, TimeSpan period, CancellationToken cancellationToken)
+        {
+            while(!cancellationToken.IsCancellationRequested)
+            {
+                await Task.Delay(period, cancellationToken);
+
+                if (!cancellationToken.IsCancellationRequested)
+                    action();
+            }
+        }
+
+        public static Task Run(Action action, TimeSpan period)
+        { 
+            return Run(action, period, CancellationToken.None);
+        }
+    }
+
+
+
+
     /// <summary>
     /// Abstrakcyjne API do zarządzania poruszaniem się obiektów.
     /// </summary>
@@ -94,7 +118,8 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractApi
         {
-            public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
+            //public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
+            public override event EventHandler CordinatesChanged;
 
             public BallLogic(int width, int height, DataAbstractApi dataLayerApi, ATimer wpfTimer)
             {
@@ -105,11 +130,13 @@ namespace BouncingBalls.Logic
                 r = new Random();
                 timer = wpfTimer;
                 SetInterval(30);
-                timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
+                //timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
+                PeriodicTask.Run(() => Update(30), TimeSpan.FromMilliseconds(30));
             }
 
             public override int Add()
             {
+                mutex.WaitOne();
                 while (true)
                 {
                     //var ray = r.Next(10, 25);
@@ -123,20 +150,28 @@ namespace BouncingBalls.Logic
 
                     if (dataLayer.GetAll().All(u => !service.Collision((MovingObject.Ball)u, (MovingObject.Ball)ball)))
                     {
-                        return dataLayer.Add(ball);
+                        var result = dataLayer.Add(ball);
+                        mutex.ReleaseMutex();
+                        return result;
                     }
                 }
             }
 
             public override void Update(float miliseconds)
             {
-                for(int i=0; i<dataLayer.Count(); i++)
+                mutex.WaitOne();
+                if (isWorking)
                 {
-                    dataLayer.Get(i).Move(miliseconds);
+                    for(int i=0; i<dataLayer.Count(); i++)
+                    {
+                        dataLayer.Get(i).Move(miliseconds);
 
-                    service.WallBounce(dataLayer.Get(i), boardWidth, boardHeight);
-                    service.BallBounce(dataLayer.GetAll(), i);
+                        service.WallBounce(dataLayer.Get(i), boardWidth, boardHeight);
+                        service.BallBounce(dataLayer.GetAll(), i);
+                    }
+                    CordinatesChanged?.Invoke(this, EventArgs.Empty);
                 }
+                mutex.ReleaseMutex();
             }
 
             public override void Remove(MovingObject movingObject)
@@ -151,12 +186,14 @@ namespace BouncingBalls.Logic
 
             public override void Start()
             {
-                timer.Start();
+                //timer.Start();
+                isWorking = true;
             }
 
             public override void Stop()
             {
-                timer.Stop();
+                //timer.Stop();
+                isWorking = false;
             }
 
             public override int Count()
@@ -203,6 +240,9 @@ namespace BouncingBalls.Logic
             /// Klasa zarządzająca aktualizacją położenia kul.
             /// </summary>
             ATimer timer;
+
+            private Mutex mutex = new Mutex();
+            private Boolean isWorking = false;
         }
     }
     #endregion Layer implementation
