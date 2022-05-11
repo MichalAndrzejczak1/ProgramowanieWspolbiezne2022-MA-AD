@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using static BouncingBalls.Data.MovingObject;
+﻿using System.Collections.Generic;
+using static BouncingBalls.Data.MovingBall;
 
 namespace BouncingBalls.Data
 {
@@ -22,26 +19,26 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
         /// </summary>
-        /// <param name="movingObject"></param>
+        /// <param name="ball"></param>
         /// <returns>Numer utworzonego obiektu na liście.</returns>
-        public abstract int Add(MovingObject movingObject);
+        public abstract int Add(MovingBall ball);
         /// <summary>
         /// Zwraca poruszający się obiekt o konkretnym numerze.
         /// </summary>
         /// <param name="i">Numer poruszającego się obiektu.</param>
         /// <returns>Poruszający się obiekt.</returns>
-        public abstract MovingObject Get(int i);
+        public abstract MovingBall Get(int i);
         /// <summary>
         /// Usuwa wskazany poruszający się obiekt.
         /// </summary>
-        /// <param name="movingObject">Poruszający się obiekt do usunięcia.</param>
+        /// <param name="ball">Poruszający się obiekt do usunięcia.</param>
         /// <returns>True, jeśli udało się go usunąć.</returns>
-        public abstract bool Remove(MovingObject movingObject);
+        public abstract bool Remove(MovingBall ball);
         /// <summary>
         /// Zwraca wszystkie obiekty.
         /// </summary>
         /// <returns>Wszystkie obiekty.</returns>
-        public abstract List<MovingObject> GetAll();
+        public abstract List<MovingBall> GetAll();
         /// <summary>
         /// Zwraca ilość przechowywanych poruszających się obiektów.
         /// </summary>
@@ -50,34 +47,34 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Tworzy implementację abstrakcyjnego API w postaci tablicy kul.
         /// </summary>
-        /// <param name="width">Szerokość planszy po której poruszają się kule.</param>
-        /// <param name="height">Wysokość planszy po której poruszają się kule.</param>
         /// <returns>Implementacja API w postaci tablicy poruszających się kul.</returns>
-        public static DataAbstractApi Create(int width, int height)
+        public static DataAbstractApi Create()
         {
-            return new Board(width, height);
+            return new Board();
         }
+
         /// <summary>
         /// Tworzy nową poruszającą się kulę.
         /// </summary>
+        /// <param name="id">Numer kuli z listy będący jej unikalnym id.</param>
         /// <param name="x">Położenie w poziomie.</param>
         /// <param name="y">Położenie w pionie.</param>
         /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
         /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
         /// <param name="radius">Promień kuli.</param>
         /// <returns>Nowa poruszająca się kula.</returns>
-        public static MovingObject CreateBall(double x, double y, double speedX, double speedY, double radius)
+        public static MovingBall CreateBall(int id, double x, double y, double speedX, double speedY, double radius)
         {
-            return new Ball(x, y, speedX, speedY, radius);
+            return new Ball(id, x, y, speedX, speedY, radius);
         }
         /// <summary>
         /// Zwraca promień kuli.
         /// </summary>
         /// <param name="ball">Kula.</param>
         /// <returns>Promień kuli.</returns>
-        public static double GetBallRadius(MovingObject ball)
+        public static double GetBallRadius(MovingBall ball)
         {
-            return ((Ball)ball).Radius;
+            return ball.Radius;
         }
 
         #region Layer implementation
@@ -89,25 +86,23 @@ namespace BouncingBalls.Data
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.
             /// </summary>
-            /// <param name="width">Szerokość planszy po której poruszają się kule.</param>
-            /// <param name="height">Wysokość planszy po której poruszają się kule.</param>
-            internal Board(int width, int height)
+            internal Board()
             {
-                balls = new List<MovingObject>();
-                BoardWidth = width;
-                BoardHeight = height;
+                balls = new List<MovingBall>();
+                BoardWidth = 770;
+                BoardHeight = 500;
             }
 
             /// <summary>
             /// Szerokość obszaru, po którym poruszają się kule.
             /// </summary>
-            public override int Add(MovingObject movingObject)
+            public override int Add(MovingBall ball)
             {
-                balls.Add(movingObject);
+                balls.Add(ball);
                 return balls.Count-1;
             }
 
-            public override List<MovingObject> GetAll()
+            public override List<MovingBall> GetAll()
             {
                 return balls;
             }
@@ -117,18 +112,18 @@ namespace BouncingBalls.Data
                 return balls.Count;
             }
 
-            public override MovingObject Get(int i)
+            public override MovingBall Get(int i)
             {
                 return balls[i];
             }
 
-            public override bool Remove(MovingObject movingObject)
+            public override bool Remove(MovingBall ball)
             {
-                return balls.Remove(movingObject);
+                return balls.Remove(ball);
             }
 
             #region Private stuff
-            private readonly List<MovingObject> balls;
+            private readonly List<MovingBall> balls;
             #endregion Private stuff
         }
 

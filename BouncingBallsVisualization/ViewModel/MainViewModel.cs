@@ -1,16 +1,12 @@
-﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using BouncingBalls.Data;
+﻿using System.Windows.Controls;
+using BouncingBalls.ViewModel;
+using BouncingBallsVisualization.Model;
 
-namespace BouncingBalls.ViewModel
+namespace BouncingBallsVisualization.ViewModel
 {
+    /// <summary>
+    /// Kontroler łączący dane z widokiem.
+    /// </summary>
     public class MainViewModel : ViewModelBase
     {
         /// <summary>
@@ -34,13 +30,16 @@ namespace BouncingBalls.ViewModel
         /// </summary>
         public bool StopIsEndabled { get => MyModel.StopIsEndabled; set {MyModel.StopIsEndabled = value; RaisePropertyChanged(); } }
 
+        /// <summary>
+        /// Płótno na którym rysowane są kule.
+        /// </summary>
         public Canvas Canvas { get => MyModel.Canvas; set { MyModel.Canvas = value; RaisePropertyChanged(); }  }
         /// <summary>
         /// Konstruktor.
         /// </summary>
         public MainViewModel()
         {
-            MyModel = new ModelLayer(770, 500);
+            MyModel = new ModelLayer();
             AddBall = new RelayCommand(MyModel.CreateBall);
             AddBalls = new RelayCommand(CreateBalls);
             StartMovement = new RelayCommand(Start);
@@ -78,12 +77,18 @@ namespace BouncingBalls.ViewModel
             MyModel.Canvas = canvas;
         }
 
+        /// <summary>
+        /// Rozpoczyna symulację.
+        /// </summary>
         public void Start()
         {
             MyModel.Start();
             StartIsEndabled = false;
             StopIsEndabled = true;
         }
+        /// <summary>
+        /// Zatrzymuje symulację.
+        /// </summary>
         public void Stop()
         {
             MyModel.Stop();
@@ -91,6 +96,9 @@ namespace BouncingBalls.ViewModel
             StopIsEndabled = false;
         }
 
+        /// <summary>
+        /// Wstrzymuje symulację.
+        /// </summary>
         public void Pause()
         {
             MyModel.Stop();

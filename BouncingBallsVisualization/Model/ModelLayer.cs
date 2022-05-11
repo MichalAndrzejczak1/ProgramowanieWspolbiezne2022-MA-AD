@@ -1,17 +1,12 @@
-﻿using BouncingBalls.Logic;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using System.Windows.Threading;
+using BouncingBalls.Data;
+using BouncingBalls.Logic;
 
-namespace BouncingBalls.Data
+namespace BouncingBallsVisualization.Model
 {
     /// <summary>
     /// Warstwa modelu dla Widoku.
@@ -38,6 +33,9 @@ namespace BouncingBalls.Data
         /// Stan aktywności przycisku Stop.
         /// </summary>
         public bool StopIsEndabled { get => stopIsEndabled; set => stopIsEndabled = value; }
+        /// <summary>
+        /// Płótno na którym są rysowane kule.
+        /// </summary>
         public Canvas Canvas { get => canvas; set => canvas = value;  }
 
         /// <summary>
@@ -47,17 +45,15 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Konstruktor.
         /// </summary>
-        /// <param name="width">Szerokość obszaru po którym poruszają się kule.</param>
-        /// <param name="height">Wysokość obszaru po którym poruszają się kule.</param>
         /// <param name="api">API logiki.</param>
-        public ModelLayer(int width, int height, LogicAbstractApi api = null)
+        public ModelLayer( LogicAbstractApi api = null)
         {
-            logicApi = api ?? LogicAbstractApi.CreateLayer(width, height);
-            logicApi.CordinatesChanged += (sender, args) => UpdateElipsesCords();
+            logicApi = api ?? LogicAbstractApi.CreateLayer();
+            logicApi.PropertyChanged += UpdateElipsesCords;
             ellipses = new List<Ellipse>();
             Canvas = new Canvas();
-            Canvas.Width = 770;
-            Canvas.Height = 500;
+            Canvas.Width = logicApi.GetBoardWidth();
+            Canvas.Height = logicApi.GetBoardHeight();
             Canvas.Background = new SolidColorBrush(Color.FromRgb(36, 156, 82));
         }
         /// <summary>
@@ -77,6 +73,11 @@ namespace BouncingBalls.Data
             Canvas.SetTop(newEllipse, y);
 
             Canvas.Children.Add(newEllipse);
+            if (logicApi.IsRunning())
+            {
+                logicApi.Stop();
+                logicApi.Start();
+            }
         }
         /// <summary>
         /// Tworzy kilka kul na raz.
@@ -100,20 +101,18 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Aktualizuje położenie elips na podstawie danych w warstwy logiki.
         /// </summary>
-        private void UpdateElipsesCords()
+        private void UpdateElipsesCords(object sender, PropertyChangedEventArgs args)
         {
-            for (int i = 0; i < logicApi.Count(); i++)
-            {
-                Canvas.SetLeft(ellipses[i], logicApi.Get(i).X);
-                Canvas.SetTop(ellipses[i], logicApi.Get(i).Y);
-            }
-            //Trace.WriteLine("Works 2!");
+            MovingBall ball = (MovingBall)sender;
+            Canvas.SetLeft(ellipses[ball.Id], ball.X);
+            Canvas.SetTop(ellipses[ball.Id], ball.Y);
+                //Trace.WriteLine("Works 2!");
         }
 
         /// <summary>
         /// API logiki.
         /// </summary>
-        private readonly LogicAbstractApi logicApi = default(LogicAbstractApi);
+        private readonly LogicAbstractApi logicApi;
         /// <summary>
         /// Lista elips na płótnie.
         /// </summary>
@@ -137,7 +136,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Aktywność przycisku Stop.
         /// </summary>
-        private bool stopIsEndabled = false;
+        private bool stopIsEndabled;
         #endregion Private stuff
     }
 }

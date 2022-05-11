@@ -1,8 +1,6 @@
 ﻿using BouncingBalls.Data;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace BouncingBalls.Logic
 {
@@ -17,7 +15,7 @@ namespace BouncingBalls.Logic
         /// <param name="ball">Poruszająca się kula.</param>
         /// <param name="width">Szerokość pola, po którym porusza się kula.</param>
         /// <param name="height">Wysokość pola, po którym porusza się kula.</param>
-        public void WallBounce(MovingObject ball, int width, int height)
+        public void WallBounce(MovingBall ball, int width, int height)
         {
             // Średnica kuli.
             double diameter = DataAbstractApi.GetBallRadius(ball) * 2;
@@ -58,15 +56,15 @@ namespace BouncingBalls.Logic
         }
 
 
-        public void BallBounce(List<MovingObject> ballsList, int i)
+        public void BallBounce(List<MovingBall> ballsList, int i)
         {
-            var mainBall = (MovingObject.Ball)ballsList[i];
+            var mainBall = (MovingBall.Ball)ballsList[i];
             for (var j = 0; j < ballsList.Count; j++)
             {
                 if(j == i)
                     continue;
 
-                var ball = (MovingObject.Ball)ballsList[j];
+                var ball = (MovingBall.Ball)ballsList[j];
                 if (Collision(mainBall, ball))
                 {
                     Back(mainBall, ball);
@@ -103,7 +101,7 @@ namespace BouncingBalls.Logic
             }
         }
 
-        public bool Collision(MovingObject.Ball a, MovingObject.Ball b)
+        public bool Collision(MovingBall.Ball a, MovingBall.Ball b)
         {
             if(a == null || b == null)
                 return false;
@@ -111,7 +109,7 @@ namespace BouncingBalls.Logic
             return Distance(a, b) <= (a.Radius + b.Radius);
         }
 
-        private double Distance(MovingObject.Ball a, MovingObject.Ball b)
+        private double Distance(MovingBall.Ball a, MovingBall.Ball b)
         {
             var x1 = a.X + a.Radius;
             var y1 = a.Y + a.Radius;
@@ -121,18 +119,12 @@ namespace BouncingBalls.Logic
             return Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
         }
 
-        private void Back(MovingObject.Ball a, MovingObject.Ball b)
+        private void Back(MovingBall.Ball a, MovingBall.Ball b)
         {
             while (Collision(a, b))
             {
                 a.Move(-1);
             }
-        }
-
-        private void Back(MovingObject ball, double right, double down)
-        {
-            while(ball.X < 0 || ball.X > right || ball.Y < 0 || ball.Y > down)
-                ball.Move(-1);
         }
     }
 }

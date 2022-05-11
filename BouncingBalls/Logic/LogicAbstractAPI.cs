@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
 using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
@@ -11,12 +10,12 @@ namespace BouncingBalls.Logic
     /// <summary>
     /// Abstrakcyjne API do zarządzania poruszaniem się obiektów.
     /// </summary>
-    public abstract class LogicAbstractApi
+    public abstract class LogicAbstractApi : INotifyPropertyChanged
     {
         /// <summary>
-        /// Zdarzenie wywoływane podczas zmiany położenia obiektów.
+        /// Event informujący o zmianie składowej obiektu.
         /// </summary>
-        public event EventHandler CordinatesChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// Czas co jaki występuje aktualizacja w milisekundach.
         /// </summary>
@@ -29,19 +28,14 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Usuwa poruszający się obiekt z listy obiektów.
         /// </summary>
-        /// <param name="movingObject">Poruszający się obiekt, który występuje na liście obiektów.</param>
-        public abstract void Remove(MovingObject movingObject);
+        /// <param name="movingBall">Poruszający się obiekt, który występuje na liście obiektów.</param>
+        public abstract void Remove(MovingBall movingBall);
         /// <summary>
         /// Zwraca poruszający się obiekt o podanym numerze.
         /// </summary>
         /// <param name="i"></param>
         /// <returns></returns>
-        public abstract MovingObject Get(int i);
-        /// <summary>
-        /// Aktualizuje pozycje poruszających się obiektów po podanym czasie w milisekundach.
-        /// </summary>
-        /// <param name="interval">Czas od ostatniej aktualizacji w milisekundach.</param>
-        public abstract void Update(float interval);
+        public abstract MovingBall Get(int i);
         /// <summary>
         /// Zwraca położenie w poziomie dla konkretnego obiektu.
         /// </summary>
@@ -56,6 +50,17 @@ namespace BouncingBalls.Logic
         public abstract double GetY(int objectNumber);
 
         /// <summary>
+        /// Zwraca szerokość tablicy po której poruszają się kule.
+        /// </summary>
+        /// <returns>Szerokość tablicy po której poruszają się kule.</returns>
+        public abstract double GetBoardWidth();
+        /// <summary>
+        /// Zwraca wysokość tablicy po której poruszają się kule.
+        /// </summary>
+        /// <returns>Wysokość tablicy po której poruszają się kule.</returns>
+        public abstract double GetBoardHeight();
+
+        /// <summary>
         /// Rozpoczyna poruszanie się obiektami.
         /// </summary>
         public abstract void Start();
@@ -68,24 +73,36 @@ namespace BouncingBalls.Logic
         /// </summary>
         /// <returns>Liczba poruszających się obiektów.</returns>
         public abstract int Count();
+        /// <summary>
+        /// Informuje czy symulacja działa.
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool IsRunning();
+        /// <summary>
+        /// Utwórz metodę OnPropertyChanged, aby wywołać zdarzenie. Jako parametr zostanie użyta nazwa członka wywołującego.
+        /// </summary>
+        /// <param name="ball">Kula do aktualizacji.</param>
+        /// <param name="name">Nazwa parametru.</param>
+        protected void OnPropertyChanged(MovingBall ball, [CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(ball, new PropertyChangedEventArgs(name));
+        }
 
         /// <summary>
         /// Tworzy warstwę logiki dla kul.
         /// </summary>
-        /// <param name="width">Szerokość obszaru, po którym poruszają się kule.</param>
-        /// <param name="height">Wysokość obszaru, po którym poruszają się kule.</param>
         /// <param name="data">API warstwy danych.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractApi CreateLayer(int width, int height, DataAbstractApi data = default(DataAbstractApi))
+        public static LogicAbstractApi CreateLayer(DataAbstractApi data = default(DataAbstractApi))
         {
-            return new BallLogic(data ?? DataAbstractApi.Create(width, height));
+            return new BallLogic(data ?? DataAbstractApi.Create());
         }
         /// <summary>
         /// Zwraca promień kuli.
         /// </summary>
         /// <param name="ball">Poruszający się obiekt będący kulą.</param>
         /// <returns>Promień kuli.</returns>
-        public static double GetBallRadius(MovingObject ball)
+        public static double GetBallRadius(MovingBall ball)
         {
             return DataAbstractApi.GetBallRadius(ball);
         }
@@ -99,10 +116,10 @@ namespace BouncingBalls.Logic
             public BallLogic(DataAbstractApi dataLayerApi)
             {
                 dataLayer = dataLayerApi;
-                service = new Logic.BallService();
+                service = new BallService();
                 r = new Random();
                 Interval = 30;
-                task = Run();
+                cancellationTokenSource = null;
             }
 
             public override int Add()
@@ -117,59 +134,57 @@ namespace BouncingBalls.Logic
                     var speedX = (r.NextDouble() - 0.5) / 2.0;
                     var speedY = (r.NextDouble() - 0.5) / 2.0;
 
-                    var ball = DataAbstractApi.CreateBall(x, y, speedX, speedY, ray);
+                    var ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray);
 
-                    if(dataLayer.GetAll().All(u => !service.Collision((MovingObject.Ball)u, (MovingObject.Ball)ball)))
+                    if(dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
                     {
                         var result = dataLayer.Add(ball);
+                        ball.PropertyChanged += BallPositionChanged;
                         mutex.ReleaseMutex();
                         return result;
                     }
                 }
             }
 
-            public override void Update(float interval)
+            public override void Remove(MovingBall movingBall)
             {
                 mutex.WaitOne();
-                if (isWorking)
-                {
-                    for(int i=0; i<dataLayer.Count(); i++)
-                    {
-                        dataLayer.Get(i).Move(interval);
-
-                        service.WallBounce(dataLayer.Get(i), dataLayer.BoardWidth, dataLayer.BoardHeight);
-                        service.BallBounce(dataLayer.GetAll(), i);
-                    }
-                    CordinatesChanged?.Invoke(this, EventArgs.Empty);
-                }
+                dataLayer.Remove(movingBall);
                 mutex.ReleaseMutex();
             }
 
-            public override void Remove(MovingObject movingObject)
-            {
-                mutex.WaitOne();
-                dataLayer.Remove(movingObject);
-                mutex.ReleaseMutex();
-            }
-
-            public override MovingObject Get(int i)
+            public override MovingBall Get(int i)
             {
                 return dataLayer.Get(i);
             }
 
+            public override double GetBoardHeight()
+            {
+                return dataLayer.BoardHeight;
+            }
+
             public override void Start()
             {
-                isWorking = true;
+                cancellationTokenSource = new CancellationTokenSource();
+                cancellationToken = cancellationTokenSource.Token;
+                foreach (var ball in dataLayer.GetAll())
+                    ball.CreateMovementTask(Interval, cancellationToken);
             }
 
             public override void Stop()
             {
-                isWorking = false;
+                if (cancellationTokenSource != null && !cancellationTokenSource.IsCancellationRequested)
+                    cancellationTokenSource.Cancel();
             }
 
             public override int Count()
             {
                 return dataLayer.Count();
+            }
+
+            public override bool IsRunning()
+            {
+                return cancellationTokenSource != null && !cancellationToken.IsCancellationRequested;
             }
 
             public override double GetX(int objectNumber)
@@ -182,6 +197,17 @@ namespace BouncingBalls.Logic
                 return dataLayer.Get(objectNumber).Y;
             }
 
+            public override double GetBoardWidth()
+            {
+                return dataLayer.BoardWidth;
+            }
+
+            void BallPositionChanged(object sender, PropertyChangedEventArgs args)
+            {
+                MovingBall ball = (MovingBall)sender;
+                Update(ball);
+            }
+
             /// <summary>
             /// Warstwa danych.
             /// </summary>
@@ -189,30 +215,29 @@ namespace BouncingBalls.Logic
             /// <summary>
             /// Usługa dla poruszających się kul.
             /// </summary>
-            private readonly BallService service = default(Logic.BallService);
+            private readonly BallService service;
             /// <summary>
             /// Generator liczb pseudolosowych.
             /// </summary>
             private Random r;
             private readonly Mutex mutex = new Mutex();
-            private Task task;
-            private Boolean isWorking = false;
-            private CancellationToken cancellationToken = CancellationToken.None;
-            private readonly Stopwatch stopwatch = new Stopwatch();
+            private CancellationTokenSource cancellationTokenSource;
+            private CancellationToken cancellationToken;
 
-
-            private async Task Run()
+            void Update(MovingBall ball)
             {
-                while(!cancellationToken.IsCancellationRequested)
-                {
-                    stopwatch.Reset();
-                    stopwatch.Start();
-                    if (!cancellationToken.IsCancellationRequested)
-                        Update(Interval);
-                    stopwatch.Stop();
+                mutex.WaitOne();
 
-                    await Task.Delay((int)(Interval-stopwatch.ElapsedMilliseconds), cancellationToken);
+                if (ball == null)
+                {
+                    mutex.ReleaseMutex();
+                    return;
                 }
+
+                service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight);
+                service.BallBounce(dataLayer.GetAll(), ball.Id);
+                OnPropertyChanged(ball);
+                mutex.ReleaseMutex();
             }
         }
     }

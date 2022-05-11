@@ -5,7 +5,7 @@ namespace BouncingBalls.UnitTest
 {
     public class MovingObjectDataTest
     {
-        private MovingObject ball;
+        private MovingBall ball;
         private readonly double x = 100, y = 300;
         private readonly double speedX = -1.0, speedY = 2.0;
         private readonly double radius = 3.0;
@@ -16,13 +16,13 @@ namespace BouncingBalls.UnitTest
 
         public MovingObjectDataTest()
         {
-            ball = DataAbstractApi.CreateBall(x, y, speedX, speedY, radius);
+            ball = DataAbstractApi.CreateBall(1, x, y, speedX, speedY, radius);
         }
 
         [SetUp]
         public void Setup()
         {
-            ball = DataAbstractApi.CreateBall(x, y, speedX, speedY, radius);
+            ball = DataAbstractApi.CreateBall(1, x, y, speedX, speedY, radius);
         }
 
         [Test]

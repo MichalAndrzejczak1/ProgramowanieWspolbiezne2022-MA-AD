@@ -7,15 +7,15 @@ namespace BouncingBalls.UnitTest
     public class DataApiTest
     {
         private DataAbstractApi api;
-        private MovingObject ball, ball2, ball3, ball4;
+        private MovingBall ball, ball2, ball3, ball4;
 
         public DataApiTest()
         {
             api = DataAbstractApi.Create(100, 100);
-            ball = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
-            ball2 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
-            ball3 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
-            ball4 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
+            ball = DataAbstractApi.CreateBall(1, 1, 2, 3, 4, 5);
+            ball2 = DataAbstractApi.CreateBall(2, 1, 2, 3, 4, 5);
+            ball3 = DataAbstractApi.CreateBall(3, 1, 2, 3, 4, 5);
+            ball4 = DataAbstractApi.CreateBall(4, 1, 2, 3, 4, 5);
         }
 
         [SetUp]
