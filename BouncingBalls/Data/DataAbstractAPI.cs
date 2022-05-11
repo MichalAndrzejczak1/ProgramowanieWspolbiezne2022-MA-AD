@@ -9,7 +9,7 @@ namespace BouncingBalls.Data
     /// <summary>
     /// Abstrakcyjne API dla danych.
     /// </summary>
-    public abstract class DataAbstractAPI
+    public abstract class DataAbstractApi
     {
         /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
@@ -30,6 +30,11 @@ namespace BouncingBalls.Data
         /// <returns>True, jeśli udało się go usunąć.</returns>
         public abstract bool Remove(MovingObject movingObject);
         /// <summary>
+        /// Zwraca wszystkie obiekty.
+        /// </summary>
+        /// <returns>Wszystkie obiekty.</returns>
+        public abstract List<MovingObject> GetAll();
+        /// <summary>
         /// Zwraca ilość przechowywanych poruszających się obiektów.
         /// </summary>
         /// <returns>Ilość przechowywanych poruszających się obiektów.</returns>
@@ -38,7 +43,7 @@ namespace BouncingBalls.Data
         /// Tworzy implementację abstrakcyjnego API w postaci tablicy kul.
         /// </summary>
         /// <returns>Implementacja API w postaci tablicy poruszających się kul.</returns>
-        public static DataAbstractAPI Create()
+        public static DataAbstractApi Create()
         {
             return new Board(); 
         }
@@ -69,7 +74,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Implementacja API w postaci tablicy poruszających się kul.
         /// </summary>
-        internal class Board : DataAbstractAPI
+        internal class Board : DataAbstractApi
         {
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.
@@ -83,6 +88,11 @@ namespace BouncingBalls.Data
             {
                 balls.Add(movingObject);
                 return balls.Count-1;
+            }
+
+            public override List<MovingObject> GetAll()
+            {
+                return balls;
             }
 
             public override int Count()

@@ -6,18 +6,18 @@ using System.Collections.Generic;
 
 namespace BouncingBalls.UnitTest
 {
-    public class LogicAPITest
+    public class LogicApiTest
     {
-        private Mock<DataAbstractAPI> dataAPI;
+        private Mock<DataAbstractApi> dataApi;
         private Mock<ATimer> timer;
-        private LogicAbstractAPI logic;
+        private LogicAbstractApi logic;
         List<MovingObject> balls;
 
-        public LogicAPITest()
+        public LogicApiTest()
         {
-            dataAPI = new Mock<DataAbstractAPI>();
+            dataApi = new Mock<DataAbstractApi>();
             timer = new Mock<ATimer>();
-            logic = LogicAbstractAPI.CreateLayer(100, 100, dataAPI.Object, timer.Object);
+            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object, timer.Object);
             balls = new List<MovingObject>();
         }
 
@@ -26,83 +26,83 @@ namespace BouncingBalls.UnitTest
         public void Setup()
         {
             balls = new List<MovingObject>();
-            logic = LogicAbstractAPI.CreateLayer(100, 100, dataAPI.Object, timer.Object);
+            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object, timer.Object);
         }
 
         [Test]
-        public void MockAPICountTest()
+        public void MockApiCountTest()
         {
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(0, logic.Count());
-            balls.Add(DataAbstractAPI.CreateBall(10, 20, 2, 3, 1));
+            balls.Add(DataAbstractApi.CreateBall(10, 20, 2, 3, 1));
             Assert.AreEqual(1, balls.Count);
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(1, logic.Count());
         }
 
         [Test]
-        public void MockAPIGetXTest()
+        public void MockApiGetXTest()
         {
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
+            MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
             balls.Add(o);
             int i = 0;
-            dataAPI.Setup(x => x.Get(i)).Returns(balls[i]);
+            dataApi.Setup(x => x.Get(i)).Returns(balls[i]);
 
             Assert.AreEqual(10, logic.GetX(i));
         }
 
         [Test]
-        public void MockAPIGetYTest()
+        public void MockApiGetYTest()
         {
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
+            MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
             balls.Add(o);
             int i = 0;
-            dataAPI.Setup(x => x.Get(i)).Returns(balls[i]);
+            dataApi.Setup(x => x.Get(i)).Returns(balls[i]);
 
             Assert.AreEqual(20, logic.GetY(i));
         }
 
         [Test]
-        public void MockAPIRemoveTest()
+        public void MockApiRemoveTest()
         {
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(0, logic.Count());
 
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
+            MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
             balls.Add(o);
             Assert.AreEqual(1, balls.Count);
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(1, logic.Count());
-            dataAPI.Setup(x => x.Remove(o)).Returns(balls.Remove(o));
+            dataApi.Setup(x => x.Remove(o)).Returns(balls.Remove(o));
             logic.Remove(o);
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(0, logic.Count());
         }
 
         [Test]
-        public void MockAPIAddTest()
+        public void MockApiAddTest()
         {
-            dataAPI.Setup(x => x.Count()).Returns(balls.Count);
+            dataApi.Setup(x => x.Count()).Returns(balls.Count);
             Assert.AreEqual(0, logic.Count());
 
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
-            dataAPI.Setup(x => x.Add(o)).Returns(() => { balls.Add(o); return balls.Count-1; } );
+            MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
+            dataApi.Setup(x => x.Add(o)).Returns(() => { balls.Add(o); return balls.Count-1; } );
 
             Assert.AreEqual(0, logic.Add());
         }
 
         [Test]
-        public void MockAPIGetTest()
+        public void MockApiGetTest()
         {
-            MovingObject o = DataAbstractAPI.CreateBall(10, 20, 2, 3, 1);
+            MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
             balls.Add(o);
-            dataAPI.Setup(x => x.Get(0)).Returns(balls[0]);
+            dataApi.Setup(x => x.Get(0)).Returns(balls[0]);
 
             Assert.AreEqual(o, logic.Get(0));
         }
 
         [Test]
-        public void MockAPIStartTest()
+        public void MockApiStartTest()
         {
             bool state = false;
             timer.Setup(x => x.Start()).Callback(() => state = true);
@@ -112,7 +112,7 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void MockAPIStopTest()
+        public void MockApiStopTest()
         {
             bool state = true;
             timer.Setup(x => x.Stop()).Callback(() => state = false);
@@ -122,7 +122,7 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void MockAPISetIntervalTest()
+        public void MockApiSetIntervalTest()
         {
             System.TimeSpan ms = System.TimeSpan.FromMilliseconds(200);
             timer.SetupSet(x => x.Interval = ms);

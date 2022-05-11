@@ -20,7 +20,7 @@ namespace BouncingBalls.ViewModel
         /// <summary>
         /// Stan aktywności przycisku OK.
         /// </summary>
-        public bool OKIsEnabled { get => MyModel.OKIsEnabled; set { MyModel.OKIsEnabled = value; RaisePropertyChanged(); } }
+        public bool OkIsEnabled { get => MyModel.OkIsEnabled; set { MyModel.OkIsEnabled = value; RaisePropertyChanged(); } }
         /// <summary>
         /// Stan aktywności przycisku New Ball.
         /// </summary>
@@ -49,7 +49,7 @@ namespace BouncingBalls.ViewModel
             StartIsEndabled = true;
             StopIsEndabled = false;
             NewBallIsEndabled = false;
-            OKIsEnabled = true;
+            OkIsEnabled = true;
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace BouncingBalls.ViewModel
         private void CreateBalls()
         {
             MyModel.CreateBalls();
-            OKIsEnabled = false;
+            OkIsEnabled = false;
             NewBallIsEndabled = true;
         }
         #endregion Private stuff

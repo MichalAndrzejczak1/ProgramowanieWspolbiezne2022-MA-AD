@@ -4,24 +4,24 @@ using Moq;
 
 namespace BouncingBalls.UnitTest
 {
-    public class DataAPITest
+    public class DataApiTest
     {
-        private DataAbstractAPI api;
+        private DataAbstractApi api;
         private MovingObject ball, ball2, ball3, ball4;
 
-        public DataAPITest()
+        public DataApiTest()
         {
-            api = DataAbstractAPI.Create();
-            ball = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball2 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball3 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
-            ball4 = DataAbstractAPI.CreateBall(1, 2, 3, 4, 5);
+            api = DataAbstractApi.Create();
+            ball = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
+            ball2 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
+            ball3 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
+            ball4 = DataAbstractApi.CreateBall(1, 2, 3, 4, 5);
         }
 
         [SetUp]
         public void Setup()
         {
-            api = DataAbstractAPI.Create();
+            api = DataAbstractApi.Create();
             api.Add(ball);
             api.Add(ball2);
             api.Add(ball3);
@@ -29,7 +29,7 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void APIAddTest()
+        public void ApiAddTest()
         {
             Assert.AreEqual(4, api.Count());
             api.Add(ball);
@@ -41,7 +41,7 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void APIGetTest()
+        public void ApiGetTest()
         {
             Assert.AreEqual(ball, api.Get(0));
             Assert.AreEqual(ball2, api.Get(1));
@@ -50,7 +50,7 @@ namespace BouncingBalls.UnitTest
         }
 
         [Test]
-        public void APIDeleteTest()
+        public void ApiDeleteTest()
         {
             Assert.AreEqual(4, api.Count());
             api.Remove(ball);

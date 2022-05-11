@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BouncingBalls.Data
+﻿namespace BouncingBalls.Data
 {
     /// <summary>
     /// Bazowa klasa dla wszystkich poruszających się obiektów.
@@ -61,10 +57,10 @@ namespace BouncingBalls.Data
             /// Porusza kulą po określonym czasie milisekund.
             /// </summary>
             /// <param name="miliseconds">Ile milisekund minęło od ostatniej aktualizacji.</param>
-            public override void Move(double milliseconds)
+            public override void Move(double miliseconds)
             {
-                X += SpeedX * milliseconds;
-                Y += SpeedY * milliseconds;
+                X += SpeedX * miliseconds;
+                Y += SpeedY * miliseconds;
             }
         }
     }

@@ -25,7 +25,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Stan aktywności przycisku OK.
         /// </summary>
-        public bool OKIsEnabled { get => okIsEnabled; set => okIsEnabled = value; }
+        public bool OkIsEnabled { get => okIsEnabled; set => okIsEnabled = value; }
         /// <summary>
         /// Stan aktywności przycisku New Ball.
         /// </summary>
@@ -50,10 +50,10 @@ namespace BouncingBalls.Data
         /// <param name="width">Szerokość obszaru po którym poruszają się kule.</param>
         /// <param name="height">Wysokość obszaru po którym poruszają się kule.</param>
         /// <param name="api">API logiki.</param>
-        public ModelLayer(int width, int height, LogicAbstractAPI api = null)
+        public ModelLayer(int width, int height, LogicAbstractApi api = null)
         {
-            logicAPI = api ?? LogicAbstractAPI.CreateLayer(width, height);
-            logicAPI.CordinatesChanged += (sender, args) => UpdateElipsesCords();
+            logicApi = api ?? LogicAbstractApi.CreateLayer(width, height);
+            logicApi.CordinatesChanged += (sender, args) => UpdateElipsesCords();
             ellipses = new List<Ellipse>();
             Canvas = new Canvas();
             Canvas.Width = 770;
@@ -65,10 +65,10 @@ namespace BouncingBalls.Data
         /// </summary>
         public void CreateBall()
         {
-            int ballNumer = logicAPI.Add();
-            double radius = LogicAbstractAPI.GetBallRadius(logicAPI.Get(ballNumer));
-            double x = logicAPI.GetX(ballNumer);
-            double y = logicAPI.GetY(ballNumer);
+            int ballNumer = logicApi.Add();
+            double radius = LogicAbstractApi.GetBallRadius(logicApi.Get(ballNumer));
+            double x = logicApi.GetX(ballNumer);
+            double y = logicApi.GetY(ballNumer);
 
             Ellipse newEllipse = new Ellipse { Width = radius * 2, Height = radius * 2, Fill = Brushes.Brown, StrokeThickness = 3, Stroke = Brushes.Black };
             ellipses.Add(newEllipse);
@@ -89,11 +89,11 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Uruchamia ruch kul.
         /// </summary>
-        public void Start() => logicAPI.Start();
+        public void Start() => logicApi.Start();
         /// <summary>
         /// Wstrzymuje ruch kul.
         /// </summary>
-        public void Stop() => logicAPI.Stop();
+        public void Stop() => logicApi.Stop();
 
 
         #region Private stuff
@@ -102,10 +102,10 @@ namespace BouncingBalls.Data
         /// </summary>
         private void UpdateElipsesCords()
         {
-            for (int i = 0; i < logicAPI.Count(); i++)
+            for (int i = 0; i < logicApi.Count(); i++)
             {
-                Canvas.SetLeft(ellipses[i], logicAPI.Get(i).X);
-                Canvas.SetTop(ellipses[i], logicAPI.Get(i).Y);
+                Canvas.SetLeft(ellipses[i], logicApi.Get(i).X);
+                Canvas.SetTop(ellipses[i], logicApi.Get(i).Y);
             }
             Trace.WriteLine("Works 2!");
         }
@@ -113,7 +113,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// API logiki.
         /// </summary>
-        private readonly LogicAbstractAPI logicAPI = default(LogicAbstractAPI);
+        private readonly LogicAbstractApi logicApi = default(LogicAbstractApi);
         /// <summary>
         /// Lista elips na płótnie.
         /// </summary>

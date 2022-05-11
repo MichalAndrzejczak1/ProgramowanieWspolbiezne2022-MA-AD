@@ -36,8 +36,8 @@ namespace BouncingBalls.ViewModel
     /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
     public RelayCommand(Action execute, Func<bool> canExecute)
     {
-      this.m_Execute = execute ?? throw new ArgumentNullException(nameof(execute));
-      this.m_CanExecute = canExecute;
+      this.mExecute = execute ?? throw new ArgumentNullException(nameof(execute));
+      this.mCanExecute = canExecute;
     }
     #endregion
 
@@ -50,11 +50,11 @@ namespace BouncingBalls.ViewModel
     /// <returns><c>true</c> if this command can be executed; otherwise, <c>false</c>.</returns>
     public bool CanExecute(object parameter)
     {
-      if (this.m_CanExecute == null)
+      if (this.mCanExecute == null)
         return true;
       if (parameter == null)
-        return this.m_CanExecute();
-      return this.m_CanExecute();
+        return this.mCanExecute();
+      return this.mCanExecute();
     }
     /// <summary>
     /// Defines the method to be called when the command is invoked.
@@ -63,7 +63,7 @@ namespace BouncingBalls.ViewModel
     /// to be passed, this parameter is always ignored</param>
     public virtual void Execute(object parameter)
     {
-      this.m_Execute();
+      this.mExecute();
     }
     /// <summary>
     /// Occurs when changes occur that affect whether the command should execute.
@@ -82,8 +82,8 @@ namespace BouncingBalls.ViewModel
     #endregion
 
     #region private
-    private readonly Action m_Execute;
-    private readonly Func<bool> m_CanExecute;
+    private readonly Action mExecute;
+    private readonly Func<bool> mCanExecute;
     #endregion
 
   }

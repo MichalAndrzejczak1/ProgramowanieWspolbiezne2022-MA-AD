@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
@@ -6,7 +8,7 @@ namespace BouncingBalls.Logic
     /// <summary>
     /// Abstrakcyjne API do zarządzania poruszaniem się obiektów.
     /// </summary>
-    public abstract class LogicAbstractAPI
+    public abstract class LogicAbstractApi
     {
         /// <summary>
         /// Zdarzenie wywoływane podczas zmiany położenia obiektów.
@@ -72,9 +74,9 @@ namespace BouncingBalls.Logic
         /// <param name="height">Wysokość obszaru, po którym poruszają się kule.</param>
         /// <param name="data">API warstwy danych.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractAPI CreateLayer(int width, int height, DataAbstractAPI data = default(DataAbstractAPI), ATimer timer = default(ATimer))
+        public static LogicAbstractApi CreateLayer(int width, int height, DataAbstractApi data = default(DataAbstractApi), ATimer timer = default(ATimer))
         {
-            return new BallLogic(width, height, data ?? DataAbstractAPI.Create(), timer ?? ATimer.CreateWPFTimer());
+            return new BallLogic(width, height, data ?? DataAbstractApi.Create(), timer ?? ATimer.CreateWpfTimer());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -83,20 +85,20 @@ namespace BouncingBalls.Logic
         /// <returns>Promień kuli.</returns>
         public static double GetBallRadius(MovingObject ball)
         {
-            return DataAbstractAPI.GetBallRadius(ball);
+            return DataAbstractApi.GetBallRadius(ball);
         }
 
         #region Layer implementation
         /// <summary>
         /// Implementacja logiki w postaci poruszających się kul.
         /// </summary>
-        internal class BallLogic : LogicAbstractAPI
+        internal class BallLogic : LogicAbstractApi
         {
             public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
 
-            public BallLogic(int width, int height, DataAbstractAPI dataLayerAPI, ATimer wpfTimer)
+            public BallLogic(int width, int height, DataAbstractApi dataLayerApi, ATimer wpfTimer)
             {
-                dataLayer = dataLayerAPI;
+                dataLayer = dataLayerApi;
                 service = new Logic.BallService();
                 boardHeight = height;
                 boardWidth = width;
@@ -108,14 +110,22 @@ namespace BouncingBalls.Logic
 
             public override int Add()
             {
-                int ray = r.Next(10, 25);
-                double x = r.NextDouble() * (boardWidth - ray * 2.0);
-                double y = r.NextDouble() * (boardHeight - ray * 2.0);
-                double speedX = (r.NextDouble() - 0.5) / 10.0;
-                double speedY = (r.NextDouble() - 0.5) / 10.0;
+                while (true)
+                {
+                    //var ray = r.Next(10, 25);
+                    var ray = 15;
+                    var x = r.NextDouble() * (boardWidth - ray * 2.0);
+                    var y = r.NextDouble() * (boardHeight - ray * 2.0);
+                    var speedX = (r.NextDouble() - 0.5) / 2.0;
+                    var speedY = (r.NextDouble() - 0.5) / 2.0;
 
-                MovingObject ball = DataAbstractAPI.CreateBall(x, y, speedX, speedY, ray);
-                return dataLayer.Add(ball);
+                    var ball = DataAbstractApi.CreateBall(x, y, speedX, speedY, ray);
+
+                    if (dataLayer.GetAll().All(u => !service.Collision((MovingObject.Ball)u, (MovingObject.Ball)ball)))
+                    {
+                        return dataLayer.Add(ball);
+                    }
+                }
             }
 
             public override void Update(float miliseconds)
@@ -125,6 +135,7 @@ namespace BouncingBalls.Logic
                     dataLayer.Get(i).Move(miliseconds);
 
                     service.WallBounce(dataLayer.Get(i), boardWidth, boardHeight);
+                    service.BallBounce(dataLayer.GetAll(), i);
                 }
             }
 
@@ -171,7 +182,7 @@ namespace BouncingBalls.Logic
             /// <summary>
             /// Warstwa danych.
             /// </summary>
-            private readonly DataAbstractAPI dataLayer;
+            private readonly DataAbstractApi dataLayer;
             /// <summary>
             /// Usługa dla poruszających się kul.
             /// </summary>

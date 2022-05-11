@@ -30,19 +30,19 @@ namespace BouncingBalls.Logic
         /// Tworzy timer dla biblioteki WPF.
         /// </summary>
         /// <returns></returns>
-        public static ATimer CreateWPFTimer()
+        public static ATimer CreateWpfTimer()
         {
-            return new WPFTimer();
+            return new WpfTimer();
         }
         /// <summary>
         /// Implementacja API timera dla biblioteki WPF.
         /// </summary>
-        internal class WPFTimer : ATimer
+        internal class WpfTimer : ATimer
         {
             public override event EventHandler Tick { add => timer.Tick += value; remove => timer.Tick -= value; }
             public override TimeSpan Interval { get => timer.Interval; set => timer.Interval = value; }
 
-            public WPFTimer()
+            public WpfTimer()
             {
                 timer = new DispatcherTimer();
             }
