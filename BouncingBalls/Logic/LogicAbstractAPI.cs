@@ -122,7 +122,7 @@ namespace BouncingBalls.Logic
 
                     var ball = DataAbstractApi.CreateBall(x, y, speedX, speedY, ray);
 
-                    if (dataLayer.GetAll().All(u => !service.Collision((MovingObject.Ball)u, (MovingObject.Ball)ball)))
+                    if(dataLayer.GetAll().All(u => !service.Collision((MovingObject.Ball)u, (MovingObject.Ball)ball)))
                     {
                         var result = dataLayer.Add(ball);
                         mutex.ReleaseMutex();

@@ -9,7 +9,6 @@ namespace BouncingBalls.UnitTest
     public class LogicApiTest
     {
         private Mock<DataAbstractApi> dataApi;
-        private Mock<ATimer> timer;
         private LogicAbstractApi logic;
         List<MovingObject> balls;
 
@@ -85,6 +84,7 @@ namespace BouncingBalls.UnitTest
             Assert.AreEqual(0, logic.Count());
 
             MovingObject o = DataAbstractApi.CreateBall(10, 20, 2, 3, 1);
+            dataApi.Setup(x => x.GetAll()).Returns(() => balls);
             dataApi.Setup(x => x.Add(o)).Returns(() => { balls.Add(o); return balls.Count-1; } );
 
             Assert.AreEqual(0, logic.Add());
@@ -98,36 +98,6 @@ namespace BouncingBalls.UnitTest
             dataApi.Setup(x => x.Get(0)).Returns(balls[0]);
 
             Assert.AreEqual(o, logic.Get(0));
-        }
-
-        [Test]
-        public void MockApiStartTest()
-        {
-            bool state = false;
-            timer.Setup(x => x.Start()).Callback(() => state = true);
-            logic.Start();
-
-            Assert.IsTrue(state);
-        }
-
-        [Test]
-        public void MockApiStopTest()
-        {
-            bool state = true;
-            timer.Setup(x => x.Stop()).Callback(() => state = false);
-            logic.Stop();
-
-            Assert.IsFalse(state);
-        }
-
-        [Test]
-        public void MockApiSetIntervalTest()
-        {
-            System.TimeSpan ms = System.TimeSpan.FromMilliseconds(200);
-            timer.SetupSet(x => x.Interval = ms);
-            logic.SetInterval(200);
-
-            Assert.AreEqual(200, ms.Milliseconds);
         }
     }
 }
