@@ -7,28 +7,6 @@ using BouncingBalls.Data;
 
 namespace BouncingBalls.Logic
 {
-    public class PeriodicTask
-    {
-        public static async Task Run(Action action, TimeSpan period, CancellationToken cancellationToken)
-        {
-            while(!cancellationToken.IsCancellationRequested)
-            {
-                await Task.Delay(period, cancellationToken);
-
-                if (!cancellationToken.IsCancellationRequested)
-                    action();
-            }
-        }
-
-        public static Task Run(Action action, TimeSpan period)
-        { 
-            return Run(action, period, CancellationToken.None);
-        }
-    }
-
-
-
-
     /// <summary>
     /// Abstrakcyjne API do zarządzania poruszaniem się obiektów.
     /// </summary>
@@ -88,8 +66,8 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Ustala krok aktualizacji zmiany położenia poruszających się obiektów.
         /// </summary>
-        /// <param name="miliseconds">Liczba milisekund co ile pozycja poruszających się obiektów będzie aktualizowana.</param>
-        public abstract void SetInterval(int miliseconds);
+        /// <param name="interval">Liczba milisekund co ile pozycja poruszających się obiektów będzie aktualizowana.</param>
+        public abstract void SetInterval(int interval);
 
         /// <summary>
         /// Tworzy warstwę logiki dla kul.
@@ -98,9 +76,9 @@ namespace BouncingBalls.Logic
         /// <param name="height">Wysokość obszaru, po którym poruszają się kule.</param>
         /// <param name="data">API warstwy danych.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractApi CreateLayer(int width, int height, DataAbstractApi data = default(DataAbstractApi), ATimer timer = default(ATimer))
+        public static LogicAbstractApi CreateLayer(int width, int height, DataAbstractApi data = default(DataAbstractApi))
         {
-            return new BallLogic(data ?? DataAbstractApi.Create(width, height), timer ?? ATimer.CreateWpfTimer());
+            return new BallLogic(data ?? DataAbstractApi.Create(width, height));
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -118,18 +96,16 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractApi
         {
-            //public override event EventHandler CordinatesChanged { add=> timer.Tick+=value; remove => timer.Tick-=value; }
             public override event EventHandler CordinatesChanged;
+            public TimeSpan Interval { get; set; }
 
-            public BallLogic(DataAbstractApi dataLayerApi, ATimer wpfTimer)
+            public BallLogic(DataAbstractApi dataLayerApi)
             {
                 dataLayer = dataLayerApi;
                 service = new Logic.BallService();
                 r = new Random();
-                timer = wpfTimer;
                 SetInterval(30);
-                //timer.Tick += (sender, args) => Update(timer.Interval.Milliseconds);
-                PeriodicTask.Run(() => Update(30), TimeSpan.FromMilliseconds(30));
+                task = Run();
             }
 
             public override int Add()
@@ -186,13 +162,11 @@ namespace BouncingBalls.Logic
 
             public override void Start()
             {
-                //timer.Start();
                 isWorking = true;
             }
 
             public override void Stop()
             {
-                //timer.Stop();
                 isWorking = false;
             }
 
@@ -201,9 +175,9 @@ namespace BouncingBalls.Logic
                 return dataLayer.Count();
             }
 
-            public override void SetInterval(int miliseconds)
+            public sealed override void SetInterval(int interval)
             {
-                timer.Interval = TimeSpan.FromMilliseconds(miliseconds);
+                Interval = TimeSpan.FromMilliseconds(interval);
             }
 
             public override double GetX(int objectNumber)
@@ -228,13 +202,22 @@ namespace BouncingBalls.Logic
             /// Generator liczb pseudolosowych.
             /// </summary>
             private Random r;
-            /// <summary>
-            /// Klasa zarządzająca aktualizacją położenia kul.
-            /// </summary>
-            ATimer timer;
-
-            private Mutex mutex = new Mutex();
+            private readonly Mutex mutex = new Mutex();
+            private Task task;
             private Boolean isWorking = false;
+            private CancellationToken cancellationToken = CancellationToken.None;
+
+
+            private async Task Run()
+            {
+                while(!cancellationToken.IsCancellationRequested)
+                {
+                    await Task.Delay(Interval, cancellationToken);
+
+                    if (!cancellationToken.IsCancellationRequested)
+                        Update(30);
+                }
+            }
         }
     }
     #endregion Layer implementation

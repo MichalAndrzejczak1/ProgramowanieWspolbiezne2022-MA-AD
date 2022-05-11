@@ -16,8 +16,7 @@ namespace BouncingBalls.UnitTest
         public LogicApiTest()
         {
             dataApi = new Mock<DataAbstractApi>();
-            timer = new Mock<ATimer>();
-            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object, timer.Object);
+            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object);
             balls = new List<MovingObject>();
         }
 
@@ -26,7 +25,7 @@ namespace BouncingBalls.UnitTest
         public void Setup()
         {
             balls = new List<MovingObject>();
-            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object, timer.Object);
+            logic = LogicAbstractApi.CreateLayer(100, 100, dataApi.Object);
         }
 
         [Test]
