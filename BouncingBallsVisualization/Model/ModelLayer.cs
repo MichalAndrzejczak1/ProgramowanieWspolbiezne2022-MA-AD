@@ -107,7 +107,7 @@ namespace BouncingBalls.Data
                 Canvas.SetLeft(ellipses[i], logicApi.Get(i).X);
                 Canvas.SetTop(ellipses[i], logicApi.Get(i).Y);
             }
-            Trace.WriteLine("Works 2!");
+            //Trace.WriteLine("Works 2!");
         }
 
         /// <summary>

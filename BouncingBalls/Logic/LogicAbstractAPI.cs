@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,7 +16,11 @@ namespace BouncingBalls.Logic
         /// <summary>
         /// Zdarzenie wywoływane podczas zmiany położenia obiektów.
         /// </summary>
-        public abstract event EventHandler CordinatesChanged;
+        public event EventHandler CordinatesChanged;
+        /// <summary>
+        /// Czas co jaki występuje aktualizacja w milisekundach.
+        /// </summary>
+        public int Interval { get; set; }
         /// <summary>
         /// Dodaje nowy poruszający się obiekt.
         /// </summary>
@@ -63,11 +68,6 @@ namespace BouncingBalls.Logic
         /// </summary>
         /// <returns>Liczba poruszających się obiektów.</returns>
         public abstract int Count();
-        /// <summary>
-        /// Ustala krok aktualizacji zmiany położenia poruszających się obiektów.
-        /// </summary>
-        /// <param name="interval">Liczba milisekund co ile pozycja poruszających się obiektów będzie aktualizowana.</param>
-        public abstract void SetInterval(int interval);
 
         /// <summary>
         /// Tworzy warstwę logiki dla kul.
@@ -96,15 +96,12 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractApi
         {
-            public override event EventHandler CordinatesChanged;
-            public TimeSpan Interval { get; set; }
-
             public BallLogic(DataAbstractApi dataLayerApi)
             {
                 dataLayer = dataLayerApi;
                 service = new Logic.BallService();
                 r = new Random();
-                SetInterval(30);
+                Interval = 30;
                 task = Run();
             }
 
@@ -175,11 +172,6 @@ namespace BouncingBalls.Logic
                 return dataLayer.Count();
             }
 
-            public sealed override void SetInterval(int interval)
-            {
-                Interval = TimeSpan.FromMilliseconds(interval);
-            }
-
             public override double GetX(int objectNumber)
             {
                 return dataLayer.Get(objectNumber).X;
@@ -206,16 +198,20 @@ namespace BouncingBalls.Logic
             private Task task;
             private Boolean isWorking = false;
             private CancellationToken cancellationToken = CancellationToken.None;
+            private readonly Stopwatch stopwatch = new Stopwatch();
 
 
             private async Task Run()
             {
                 while(!cancellationToken.IsCancellationRequested)
                 {
-                    await Task.Delay(Interval, cancellationToken);
-
+                    stopwatch.Reset();
+                    stopwatch.Start();
                     if (!cancellationToken.IsCancellationRequested)
-                        Update(30);
+                        Update(Interval);
+                    stopwatch.Stop();
+
+                    await Task.Delay((int)(Interval-stopwatch.ElapsedMilliseconds), cancellationToken);
                 }
             }
         }
