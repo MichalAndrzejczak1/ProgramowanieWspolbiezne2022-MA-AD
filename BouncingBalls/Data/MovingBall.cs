@@ -97,7 +97,7 @@ namespace BouncingBalls.Data
 
             public override void CreateMovementTask(int interval, CancellationToken cancellationToken)
             {
-                _ = Run(interval, cancellationToken);
+                task = Run(interval, cancellationToken);
             }
 
             private async Task Run(int interval, CancellationToken cancellationToken)
@@ -119,6 +119,7 @@ namespace BouncingBalls.Data
 
             
             private readonly Stopwatch stopwatch = new Stopwatch();
+            private Task task;
         }
     }
 }
