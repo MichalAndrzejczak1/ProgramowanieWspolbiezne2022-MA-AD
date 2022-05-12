@@ -136,7 +136,7 @@ namespace BouncingBalls.Logic
 
                     var ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray);
 
-                    if(dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
+                    if (dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
                     {
                         var result = dataLayer.Add(ball);
                         ball.PropertyChanged += BallPositionChanged;
@@ -237,7 +237,6 @@ namespace BouncingBalls.Logic
                 service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight);
                 service.BallBounce(dataLayer.GetAll(), ball.Id);
                 OnPropertyChanged(ball);
-
                 mutex.ReleaseMutex();
             }
         }

@@ -25,14 +25,14 @@ namespace BouncingBalls.Logic
             double down = height - diameter;
 
             // Prawo.
-            if(ball.X < 0)
+            if (ball.X < 0)
             {
                 //Back(ball, right, down);
                 ball.X = -ball.X;
                 ball.SpeedX = -ball.SpeedX;
             }
             // Lewo.
-            else if(ball.X > right)
+            else if (ball.X > right)
             {
                 //Back(ball, right, down);
                 ball.X = right - (ball.X - right);
@@ -61,7 +61,7 @@ namespace BouncingBalls.Logic
             var mainBall = (MovingBall.Ball)ballsList[i];
             for (var j = 0; j < ballsList.Count; j++)
             {
-                if(j == i)
+                if (j == i)
                     continue;
 
                 var ball = (MovingBall.Ball)ballsList[j];
@@ -101,17 +101,9 @@ namespace BouncingBalls.Logic
             }
         }
 
-        private void Rewerse(MovingBall.Ball a, MovingBall.Ball b)
-        {
-            while (Collision(a, b))
-            {
-                a.Move(-1);
-            }
-        }
-
         public bool Collision(MovingBall.Ball a, MovingBall.Ball b)
         {
-            if(a == null || b == null)
+            if (a == null || b == null)
                 return false;
 
             return Distance(a, b) <= (a.Radius + b.Radius);
@@ -134,7 +126,5 @@ namespace BouncingBalls.Logic
                 a.Move(-1);
             }
         }
-
-      
     }
 }
