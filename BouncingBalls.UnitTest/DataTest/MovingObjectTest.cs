@@ -32,6 +32,211 @@ namespace BouncingBalls.UnitTest
             Assert.AreEqual(y, ball.Y);
             Assert.AreEqual(speedX, ball.SpeedX);
             Assert.AreEqual(speedY, ball.SpeedY);
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+            Assert.AreEqual(x, ball.X);
+            Assert.AreEqual(y, ball.Y);
+            Assert.AreEqual(speedX, ball.SpeedX);
+            Assert.AreEqual(speedY, ball.SpeedY);
+
+
         }
 
         [Test]
@@ -51,6 +256,15 @@ namespace BouncingBalls.UnitTest
         public void MoveTest()
         {
             ball.Move(timeDelta);
+            Assert.AreEqual(x + speedX * timeDelta, ball.X);
+            Assert.AreEqual(y + speedY * timeDelta, ball.Y);
+
+            Assert.AreEqual(x + speedX * timeDelta, ball.X);
+            Assert.AreEqual(y + speedY * timeDelta, ball.Y);
+
+            Assert.AreEqual(x + speedX * timeDelta, ball.X);
+            Assert.AreEqual(y + speedY * timeDelta, ball.Y);
+
             Assert.AreEqual(x + speedX * timeDelta, ball.X);
             Assert.AreEqual(y + speedY * timeDelta, ball.Y);
         }
