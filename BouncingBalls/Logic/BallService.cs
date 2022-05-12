@@ -101,6 +101,14 @@ namespace BouncingBalls.Logic
             }
         }
 
+        private void Rewerse(MovingBall.Ball a, MovingBall.Ball b)
+        {
+            while (Collision(a, b))
+            {
+                a.Move(-1);
+            }
+        }
+
         public bool Collision(MovingBall.Ball a, MovingBall.Ball b)
         {
             if(a == null || b == null)
@@ -126,5 +134,7 @@ namespace BouncingBalls.Logic
                 a.Move(-1);
             }
         }
+
+      
     }
 }

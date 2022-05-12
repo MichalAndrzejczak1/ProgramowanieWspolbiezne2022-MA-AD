@@ -237,6 +237,7 @@ namespace BouncingBalls.Logic
                 service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight);
                 service.BallBounce(dataLayer.GetAll(), ball.Id);
                 OnPropertyChanged(ball);
+
                 mutex.ReleaseMutex();
             }
         }
