@@ -76,8 +76,7 @@ namespace BouncingBalls.Data
         {
             return ball.Radius;
         }
-
-        #region Layer implementation
+  #region Layer implementation
         /// <summary>
         /// Implementacja API w postaci tablicy poruszających się kul.
         /// </summary>

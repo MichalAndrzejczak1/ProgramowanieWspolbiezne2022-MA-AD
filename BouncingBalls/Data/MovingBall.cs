@@ -117,7 +117,6 @@ namespace BouncingBalls.Data
                 }
             }
 
-            
             private readonly Stopwatch stopwatch = new Stopwatch();
             private Task task;
         }
