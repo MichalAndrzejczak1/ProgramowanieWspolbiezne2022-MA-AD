@@ -109,7 +109,6 @@ namespace BouncingBallsVisualization.ViewModel
 
         #region Private stuff
         private ModelLayer MyModel { get; set; }
-
         private void CreateBalls()
         {
             MyModel.CreateBalls();

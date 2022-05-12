@@ -96,7 +96,6 @@ namespace BouncingBallsVisualization.Model
         /// </summary>
         public void Stop() => logicApi.Stop();
 
-
         #region Private stuff
         /// <summary>
         /// Aktualizuje położenie elips na podstawie danych w warstwy logiki.
