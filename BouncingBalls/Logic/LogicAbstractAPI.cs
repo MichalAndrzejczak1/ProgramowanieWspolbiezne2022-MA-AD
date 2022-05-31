@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -92,10 +93,11 @@ namespace BouncingBalls.Logic
         /// Tworzy warstwę logiki dla kul.
         /// </summary>
         /// <param name="data">API warstwy danych.</param>
+        /// <param name="logger">API logowania informacji.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractApi CreateLayer(DataAbstractApi data = default(DataAbstractApi))
+        public static LogicAbstractApi CreateLayer(DataAbstractApi data = default(DataAbstractApi), LoggerAbstractApi logger = default(LoggerAbstractApi))
         {
-            return new BallLogic(data ?? DataAbstractApi.Create());
+            return new BallLogic(data ?? DataAbstractApi.Create(), logger ?? LoggerAbstractApi.Create());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -113,9 +115,10 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractApi
         {
-            public BallLogic(DataAbstractApi dataLayerApi)
+            public BallLogic(DataAbstractApi dataLayerApi, LoggerAbstractApi loggerAbstractApi)
             {
                 dataLayer = dataLayerApi;
+                loggerApi = loggerAbstractApi;
                 service = new BallService();
                 r = new Random();
                 Interval = 30;
@@ -141,6 +144,7 @@ namespace BouncingBalls.Logic
                         var result = dataLayer.Add(ball);
                         ball.PropertyChanged += BallPositionChanged;
                         mutex.ReleaseMutex();
+                        loggerApi?.Info("Creation", ball);
                         return result;
                     }
                 }
@@ -149,6 +153,7 @@ namespace BouncingBalls.Logic
             public override void Remove(MovingBall movingBall)
             {
                 mutex.WaitOne();
+                loggerApi?.Info("Removing", movingBall);
                 dataLayer.Remove(movingBall);
                 mutex.ReleaseMutex();
             }
@@ -208,6 +213,7 @@ namespace BouncingBalls.Logic
                 Update(ball);
             }
 
+            #region Private stuff
             /// <summary>
             /// Warstwa danych.
             /// </summary>
@@ -223,6 +229,7 @@ namespace BouncingBalls.Logic
             private readonly Mutex mutex = new Mutex();
             private CancellationTokenSource cancellationTokenSource;
             private CancellationToken cancellationToken;
+            private readonly LoggerAbstractApi loggerApi = null;
 
             void Update(MovingBall ball)
             {
@@ -233,12 +240,17 @@ namespace BouncingBalls.Logic
                     mutex.ReleaseMutex();
                     return;
                 }
+                loggerApi?.Info("Moving", ball);
+                if (service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight))
+                    loggerApi?.Info("WallBounce", ball);
+                var bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
+                if (bouncedBallId != -1)
+                    loggerApi?.Info("BallBounce", new List<object> { ball, dataLayer.Get(bouncedBallId) });
 
-                service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight);
-                service.BallBounce(dataLayer.GetAll(), ball.Id);
                 OnPropertyChanged(ball);
                 mutex.ReleaseMutex();
             }
+            #endregion Private stuff
         }
     }
     #endregion Layer implementation

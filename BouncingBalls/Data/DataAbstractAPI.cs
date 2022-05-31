@@ -76,7 +76,7 @@ namespace BouncingBalls.Data
         {
             return ball.Radius;
         }
-  #region Layer implementation
+        #region Layer implementation
         /// <summary>
         /// Implementacja API w postaci tablicy poruszających się kul.
         /// </summary>
@@ -98,7 +98,7 @@ namespace BouncingBalls.Data
             public override int Add(MovingBall ball)
             {
                 balls.Add(ball);
-                return balls.Count-1;
+                return balls.Count - 1;
             }
 
             public override List<MovingBall> GetAll()

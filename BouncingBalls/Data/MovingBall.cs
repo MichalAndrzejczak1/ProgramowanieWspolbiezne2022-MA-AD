@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -22,7 +23,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Położenie w poziomie.
         /// </summary>
-        public double X { get; set; } 
+        public double X { get; set; }
         /// <summary>
         /// Położenie w pionie.
         /// </summary>
@@ -76,7 +77,7 @@ namespace BouncingBalls.Data
             /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="radius">Promień kuli.</param>
-            public Ball(int id,double x, double y, double speedX, double speedY, double radius)
+            public Ball(int id, double x, double y, double speedX, double speedY, double radius)
             {
                 Id = id;
                 X = x;
@@ -85,6 +86,7 @@ namespace BouncingBalls.Data
                 SpeedY = speedY;
                 Radius = radius;
             }
+
             /// <summary>
             /// Porusza kulą po określonym czasie milisekund.
             /// </summary>
@@ -100,9 +102,10 @@ namespace BouncingBalls.Data
                 task = Run(interval, cancellationToken);
             }
 
+            #region Private stuff
             private async Task Run(int interval, CancellationToken cancellationToken)
             {
-                while(!cancellationToken.IsCancellationRequested)
+                while (!cancellationToken.IsCancellationRequested)
                 {
                     stopwatch.Reset();
                     stopwatch.Start();
@@ -113,12 +116,13 @@ namespace BouncingBalls.Data
                     }
                     stopwatch.Stop();
 
-                    await Task.Delay((int)(interval-stopwatch.ElapsedMilliseconds), cancellationToken);
+                    await Task.Delay((int)(interval - stopwatch.ElapsedMilliseconds), cancellationToken);
                 }
             }
 
             private readonly Stopwatch stopwatch = new Stopwatch();
             private Task task;
+            #endregion Private stuff
         }
     }
 }

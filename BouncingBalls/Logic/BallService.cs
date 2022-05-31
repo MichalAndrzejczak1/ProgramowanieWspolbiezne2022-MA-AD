@@ -15,7 +15,7 @@ namespace BouncingBalls.Logic
         /// <param name="ball">Poruszająca się kula.</param>
         /// <param name="width">Szerokość pola, po którym porusza się kula.</param>
         /// <param name="height">Wysokość pola, po którym porusza się kula.</param>
-        public void WallBounce(MovingBall ball, int width, int height)
+        public bool WallBounce(MovingBall ball, int width, int height)
         {
             // Średnica kuli.
             double diameter = DataAbstractApi.GetBallRadius(ball) * 2;
@@ -23,13 +23,15 @@ namespace BouncingBalls.Logic
             double right = width - diameter;
             // Prawa Dolna nie licząc średnicy kuli.
             double down = height - diameter;
-
+            // Czy kula odbiła się od ściany.
+            bool bounced = false;
             // Prawo.
             if (ball.X < 0)
             {
                 //Back(ball, right, down);
                 ball.X = -ball.X;
                 ball.SpeedX = -ball.SpeedX;
+                bounced = true;
             }
             // Lewo.
             else if (ball.X > right)
@@ -37,6 +39,7 @@ namespace BouncingBalls.Logic
                 //Back(ball, right, down);
                 ball.X = right - (ball.X - right);
                 ball.SpeedX = -ball.SpeedX;
+                bounced = true;
             }
 
             // Góra.
@@ -45,6 +48,7 @@ namespace BouncingBalls.Logic
                 //Back(ball, right, down);
                 ball.Y = -ball.Y;
                 ball.SpeedY = -ball.SpeedY;
+                bounced = true;
             }
             // Dół.
             else if (ball.Y > down)
@@ -52,11 +56,13 @@ namespace BouncingBalls.Logic
                 //Back(ball, right, down);
                 ball.Y = down - (ball.Y - down);
                 ball.SpeedY = -ball.SpeedY;
+                bounced = true;
             }
+            return bounced;
         }
 
 
-        public void BallBounce(List<MovingBall> ballsList, int i)
+        public int BallBounce(List<MovingBall> ballsList, int i)
         {
             var mainBall = (MovingBall.Ball)ballsList[i];
             for (var j = 0; j < ballsList.Count; j++)
@@ -96,9 +102,10 @@ namespace BouncingBalls.Logic
                         ball.SpeedY = v2Y;
                     }
 
-                    return;
+                    return ball.Id;
                 }
             }
+            return -1;
         }
 
         public bool Collision(MovingBall.Ball a, MovingBall.Ball b)
