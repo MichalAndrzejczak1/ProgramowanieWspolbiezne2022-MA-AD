@@ -101,7 +101,6 @@ namespace BouncingBalls.Logic
                         ball.SpeedX = v2X;
                         ball.SpeedY = v2Y;
                     }
-
                     return ball.Id;
                 }
             }

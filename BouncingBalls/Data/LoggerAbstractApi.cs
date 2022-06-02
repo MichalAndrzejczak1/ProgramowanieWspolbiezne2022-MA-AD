@@ -84,7 +84,6 @@ namespace BouncingBalls.Data
         private Task task;
         #endregion Private stuff
     }
-
     internal class Message
     {
         public string Timestamp;
