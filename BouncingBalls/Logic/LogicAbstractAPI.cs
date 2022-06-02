@@ -109,7 +109,6 @@ namespace BouncingBalls.Logic
             return DataAbstractApi.GetBallRadius(ball);
         }
 
-
         #region Layer implementation
         /// <summary>
         /// Implementacja logiki w postaci poruszających się kul.
