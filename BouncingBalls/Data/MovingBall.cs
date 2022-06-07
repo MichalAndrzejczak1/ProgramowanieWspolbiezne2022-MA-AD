@@ -15,7 +15,7 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Numer obiektu z listy, służy jako identyfikator. Liczone od 0.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; private set; }
         /// <summary>
         /// Event informujący o zmianie składowej obiektu.
         /// </summary>
@@ -39,13 +39,8 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Promień kuli.
         /// </summary>
-        public double Radius { get; set; }
+        public double Radius { get; private set; }
 
-        /// <summary>
-        /// Porusza obiektem po określonym czasie milisekund.
-        /// </summary>
-        /// <param name="interval">Ile milisekund minęło od ostatniej aktualizacji.</param>
-        public abstract void Move(double interval);
         /// <summary>
         /// Tworzy nowe zadanie ruchu obiektu.
         /// </summary>
@@ -54,20 +49,10 @@ namespace BouncingBalls.Data
         public abstract void CreateMovementTask(int interval, CancellationToken cancellationToken);
 
         /// <summary>
-        /// Utwórz metodę OnPropertyChanged, aby wywołać zdarzenie. Jako parametr zostanie użyta nazwa członka wywołującego.
-        /// </summary>
-        /// <param name="name"></param>
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        /// <summary>
         /// Poruszająca się kula.
         /// </summary>
         internal class Ball : MovingBall
         {
-
             /// <summary>
             /// Tworzy kulę.
             /// </summary>
@@ -77,21 +62,21 @@ namespace BouncingBalls.Data
             /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="radius">Promień kuli.</param>
-            public Ball(int id, double x, double y, double speedX, double speedY, double radius)
+            public Ball(int nid, double nx, double ny, double speedX, double speedY, double nradius)
             {
-                Id = id;
-                X = x;
-                Y = y;
+                Id = nid;
+                X = nx;
+                Y = ny;
                 SpeedX = speedX;
                 SpeedY = speedY;
-                Radius = radius;
+                Radius = nradius;
             }
 
             /// <summary>
             /// Porusza kulą po określonym czasie milisekund.
             /// </summary>
             /// <param name="interval">Ile milisekund minęło od ostatniej aktualizacji.</param>
-            public override void Move(double interval)
+            public void Move(double interval)
             {
                 X += SpeedX * interval;
                 Y += SpeedY * interval;
@@ -118,6 +103,15 @@ namespace BouncingBalls.Data
 
                     await Task.Delay((int)(interval - stopwatch.ElapsedMilliseconds), cancellationToken);
                 }
+            }
+
+            /// <summary>
+            /// Utwórz metodę OnPropertyChanged, aby wywołać zdarzenie. Jako parametr zostanie użyta nazwa członka wywołującego.
+            /// </summary>
+            /// <param name="name"></param>
+            private void OnPropertyChanged([CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
             private readonly Stopwatch stopwatch = new Stopwatch();

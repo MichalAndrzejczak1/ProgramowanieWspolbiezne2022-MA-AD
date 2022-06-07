@@ -28,7 +28,6 @@ namespace BouncingBalls.Logic
             // Prawo.
             if (ball.X < 0)
             {
-                //Back(ball, right, down);
                 ball.X = -ball.X;
                 ball.SpeedX = -ball.SpeedX;
                 bounced = true;
@@ -36,7 +35,6 @@ namespace BouncingBalls.Logic
             // Lewo.
             else if (ball.X > right)
             {
-                //Back(ball, right, down);
                 ball.X = right - (ball.X - right);
                 ball.SpeedX = -ball.SpeedX;
                 bounced = true;
@@ -45,7 +43,6 @@ namespace BouncingBalls.Logic
             // Góra.
             if (ball.Y < 0)
             {
-                //Back(ball, right, down);
                 ball.Y = -ball.Y;
                 ball.SpeedY = -ball.SpeedY;
                 bounced = true;
@@ -53,7 +50,6 @@ namespace BouncingBalls.Logic
             // Dół.
             else if (ball.Y > down)
             {
-                //Back(ball, right, down);
                 ball.Y = down - (ball.Y - down);
                 ball.SpeedY = -ball.SpeedY;
                 bounced = true;
@@ -73,8 +69,6 @@ namespace BouncingBalls.Logic
                 var ball = (MovingBall.Ball)ballsList[j];
                 if (Collision(mainBall, ball))
                 {
-                    Back(mainBall, ball);
-
                     var m1 = mainBall.Radius;
                     var m2 = ball.Radius;
                     var u1X = mainBall.SpeedX;
@@ -126,12 +120,5 @@ namespace BouncingBalls.Logic
             return Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
         }
 
-        private void Back(MovingBall.Ball a, MovingBall.Ball b)
-        {
-            while (Collision(a, b))
-            {
-                a.Move(-1);
-            }
-        }
     }
 }

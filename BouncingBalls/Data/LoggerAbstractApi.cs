@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Nito.AsyncEx;
 
 namespace BouncingBalls.Data
 {
@@ -14,8 +15,8 @@ namespace BouncingBalls.Data
     /// </summary>
     public abstract class LoggerAbstractApi
     {
-        public abstract void Info(String eventType, object obj);
-        public abstract void Info(String eventType, List<object> objects);
+        public abstract void Info(String eventType, MovingBall ball);
+        public abstract void Info(String eventType, List<MovingBall> balls);
         /// <summary>
         /// 
         /// </summary>
@@ -33,22 +34,27 @@ namespace BouncingBalls.Data
         internal BallLogger(string logname)
         {
             filename = logname + ".log";
-            messages = new Queue<Message>();
+            messages = new Queue<String>();
             task = Run(30, CancellationToken.None);
         }
 
-        public override void Info(string eventType, object ball)
+        public override void Info(string eventType, MovingBall ball)
         {
             mutex.WaitOne();
-            messages.Enqueue(new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, ball));
+            var l = new List<MovingBall> { ball };
+            var m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, l);
+            messages.Enqueue(m.Serialize());
             mutex.ReleaseMutex();
+            waitHandle.Set();
         }
 
-        public override void Info(string eventType, List<object> objects)
+        public override void Info(string eventType, List<MovingBall> balls)
         {
             mutex.WaitOne();
-            messages.Enqueue(new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, objects));
+            var m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, balls);
+            messages.Enqueue(m.Serialize());
             mutex.ReleaseMutex();
+            waitHandle.Set();
         }
 
         #region Private stuff
@@ -59,50 +65,60 @@ namespace BouncingBalls.Data
                 if (!cancellationToken.IsCancellationRequested)
                 {
                     var m = GetMessages();
-                    while (m.Count > 0)
-                    {
-                        File.AppendAllText(filename, m.Dequeue().Serialize() + "\n");
-                    }
+                    if(m != null)
+                        while (m.Count > 0)
+                        {
+                            File.AppendAllText(filename, m.Dequeue() + "\n");
+                        }
                 }
-
-                await Task.Delay((int)(interval), cancellationToken);
+                await waitHandle.WaitAsync(cancellationToken);
             }
         }
 
-        private Queue<Message> GetMessages()
+        private Queue<String> GetMessages()
         {
             mutex.WaitOne();
-            var m = new Queue<Message>(messages);
+            if(messages.Count ==0)
+            {
+                mutex.ReleaseMutex();
+                return null;
+            }
+            var m = new Queue<string>(messages);
             messages.Clear();
             mutex.ReleaseMutex();
             return m;
         }
+        private class Message
+        {
+            private string timestamp;
+            private string eventType;
+            private List<MovingBall> balls;
 
-        private string filename;
-        private readonly Queue<Message> messages;
+            public string Timestamp { get => timestamp; }
+            public string EventType { get => eventType; }
+            public List<MovingBall> Balls { get => balls; }
+
+            public Message(string timestamp, string eventType, List<MovingBall> balls)
+            {
+                this.timestamp = timestamp;
+                this.eventType = eventType;
+                this.balls = balls;
+            }
+
+            public string Serialize()
+            {
+                return Newtonsoft.Json.JsonConvert.SerializeObject(this);
+            }
+        }
+
+        private readonly string filename;
+        private readonly Queue<String> messages;
         private readonly Mutex mutex = new Mutex();
         private Task task;
+        private readonly AsyncAutoResetEvent waitHandle = new AsyncAutoResetEvent(false);
         #endregion Private stuff
     }
 
-    internal class Message
-    {
-        public string Timestamp;
-        public string EventType;
-        public object Obj;
-
-        public Message(string timestamp, string eventType, object obj)
-        {
-            Timestamp = timestamp;
-            EventType = eventType;
-            Obj = obj;
-        }
-
-        public string Serialize()
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    }
 
     #endregion Logger implementation
 }

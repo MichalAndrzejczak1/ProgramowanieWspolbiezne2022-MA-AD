@@ -245,7 +245,7 @@ namespace BouncingBalls.Logic
                     loggerApi?.Info("WallBounce", ball);
                 var bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
                 if (bouncedBallId != -1)
-                    loggerApi?.Info("BallBounce", new List<object> { ball, dataLayer.Get(bouncedBallId) });
+                    loggerApi?.Info("BallBounce", new List<MovingBall> { ball, dataLayer.Get(bouncedBallId) });
 
                 OnPropertyChanged(ball);
                 mutex.ReleaseMutex();
