@@ -11,11 +11,11 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Szerokość obszaru, po którym poruszają się kule.
         /// </summary>
-        public int BoardWidth { get; set; }
+        public abstract int BoardWidth { get;  }
         /// <summary>
         /// Wysokość obszaru, po którym poruszają się kule.
         /// </summary>
-        public int BoardHeight { get; set; }
+        public abstract int BoardHeight { get; }
         /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
         /// </summary>
@@ -82,14 +82,16 @@ namespace BouncingBalls.Data
         /// </summary>
         internal class Board : DataAbstractApi
         {
+            public override int BoardWidth => boardWidth;
+            public override int BoardHeight => boardHeight;
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.
             /// </summary>
             internal Board()
             {
                 balls = new List<MovingBall>();
-                BoardWidth = 770;
-                BoardHeight = 500;
+                boardWidth = 770;
+                boardHeight = 500;
             }
 
             /// <summary>
@@ -123,6 +125,8 @@ namespace BouncingBalls.Data
 
             #region Private stuff
             private readonly List<MovingBall> balls;
+            private int boardWidth;
+            private int boardHeight;
             #endregion Private stuff
         }
 

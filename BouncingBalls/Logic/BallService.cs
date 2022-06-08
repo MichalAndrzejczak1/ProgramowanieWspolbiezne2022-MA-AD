@@ -60,21 +60,21 @@ namespace BouncingBalls.Logic
 
         public int BallBounce(List<MovingBall> ballsList, int i)
         {
-            var mainBall = (MovingBall.Ball)ballsList[i];
-            for (var j = 0; j < ballsList.Count; j++)
+            MovingBall mainBall = ballsList[i];
+            for (int j = 0; j < ballsList.Count; j++)
             {
                 if (j == i)
                     continue;
 
-                var ball = (MovingBall.Ball)ballsList[j];
+                MovingBall ball = ballsList[j];
                 if (Collision(mainBall, ball))
                 {
-                    var m1 = mainBall.Radius;
-                    var m2 = ball.Radius;
-                    var u1X = mainBall.SpeedX;
-                    var u2X = ball.SpeedX;
-                    var u1Y = ball.SpeedY;
-                    var u2Y = ball.SpeedY;
+                    double m1 = mainBall.Radius;
+                    double m2 = ball.Radius;
+                    double u1X = mainBall.SpeedX;
+                    double u2X = ball.SpeedX;
+                    double u1Y = ball.SpeedY;
+                    double u2Y = ball.SpeedY;
 
                     if (Math.Abs(m1 - m2) < 0.1)
                     {
@@ -83,11 +83,11 @@ namespace BouncingBalls.Logic
                     }
                     else
                     {
-                        var v1X = (m1 - m2) * u1X / (m1 + m2) + (2 * m2) * u2X / (m1 + m2);
-                        var v1Y = (m1 - m2) * u1Y / (m1 + m2) + (2 * m2) * u2Y / (m1 + m2);
+                        double v1X = (m1 - m2) * u1X / (m1 + m2) + (2 * m2) * u2X / (m1 + m2);
+                        double v1Y = (m1 - m2) * u1Y / (m1 + m2) + (2 * m2) * u2Y / (m1 + m2);
 
-                        var v2X = 2 * m1 * u1X / (m1 + m2) + (m2 - m1) * u2X / (m1 + m2);
-                        var v2Y = 2 * m1 * u1Y / (m1 + m2) + (m2 - m1) * u2Y / (m1 + m2);
+                        double v2X = 2 * m1 * u1X / (m1 + m2) + (m2 - m1) * u2X / (m1 + m2);
+                        double v2Y = 2 * m1 * u1Y / (m1 + m2) + (m2 - m1) * u2Y / (m1 + m2);
 
                         mainBall.SpeedX = v1X;
                         mainBall.SpeedY = v1Y;
@@ -102,7 +102,7 @@ namespace BouncingBalls.Logic
             return -1;
         }
 
-        public bool Collision(MovingBall.Ball a, MovingBall.Ball b)
+        public bool Collision(MovingBall a, MovingBall b)
         {
             if (a == null || b == null)
                 return false;
@@ -110,12 +110,12 @@ namespace BouncingBalls.Logic
             return Distance(a, b) <= (a.Radius + b.Radius);
         }
 
-        private double Distance(MovingBall.Ball a, MovingBall.Ball b)
+        private double Distance(MovingBall a, MovingBall b)
         {
-            var x1 = a.X + a.Radius;
-            var y1 = a.Y + a.Radius;
-            var x2 = b.X + b.Radius;
-            var y2 = b.Y + b.Radius;
+            double x1 = a.X + a.Radius;
+            double y1 = a.Y + a.Radius;
+            double x2 = b.X + b.Radius;
+            double y2 = b.Y + b.Radius;
 
             return Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
         }

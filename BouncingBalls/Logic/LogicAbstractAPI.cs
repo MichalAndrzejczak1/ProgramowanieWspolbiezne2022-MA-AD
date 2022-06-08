@@ -130,21 +130,20 @@ namespace BouncingBalls.Logic
                 mutex.WaitOne();
                 while (true)
                 {
-                    //var ray = r.Next(10, 25);
-                    var ray = 15;
-                    var x = r.NextDouble() * (dataLayer.BoardWidth - ray * 2.0);
-                    var y = r.NextDouble() * (dataLayer.BoardHeight - ray * 2.0);
-                    var speedX = (r.NextDouble() - 0.5) / 2.0;
-                    var speedY = (r.NextDouble() - 0.5) / 2.0;
+                    int ray = 15;
+                    double x = r.NextDouble() * (dataLayer.BoardWidth - ray * 2.0);
+                    double y = r.NextDouble() * (dataLayer.BoardHeight - ray * 2.0);
+                    double speedX = (r.NextDouble() - 0.5) / 2.0;
+                    double speedY = (r.NextDouble() - 0.5) / 2.0;
 
-                    var ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray);
+                    MovingBall ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray);
 
                     if (dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
                     {
-                        var result = dataLayer.Add(ball);
+                        int result = dataLayer.Add(ball);
                         ball.PropertyChanged += BallPositionChanged;
-                        mutex.ReleaseMutex();
                         loggerApi?.Info("Creation", ball);
+                        mutex.ReleaseMutex();
                         return result;
                     }
                 }
@@ -172,7 +171,7 @@ namespace BouncingBalls.Logic
             {
                 cancellationTokenSource = new CancellationTokenSource();
                 cancellationToken = cancellationTokenSource.Token;
-                foreach (var ball in dataLayer.GetAll())
+                foreach (MovingBall ball in dataLayer.GetAll())
                     ball.CreateMovementTask(Interval, cancellationToken);
             }
 
@@ -243,7 +242,7 @@ namespace BouncingBalls.Logic
                 loggerApi?.Info("Moving", ball);
                 if (service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight))
                     loggerApi?.Info("WallBounce", ball);
-                var bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
+                int bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
                 if (bouncedBallId != -1)
                     loggerApi?.Info("BallBounce", new List<MovingBall> { ball, dataLayer.Get(bouncedBallId) });
 

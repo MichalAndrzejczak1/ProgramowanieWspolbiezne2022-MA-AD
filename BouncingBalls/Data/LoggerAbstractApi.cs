@@ -40,18 +40,15 @@ namespace BouncingBalls.Data
 
         public override void Info(string eventType, MovingBall ball)
         {
-            mutex.WaitOne();
-            var l = new List<MovingBall> { ball };
-            var m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, l);
-            messages.Enqueue(m.Serialize());
-            mutex.ReleaseMutex();
-            waitHandle.Set();
+            List<MovingBall> l = new List<MovingBall> { ball };
+            Info(eventType, l);
         }
 
         public override void Info(string eventType, List<MovingBall> balls)
         {
             mutex.WaitOne();
-            var m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, balls);
+            Message m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, balls);
+            //Utrwalony stan
             messages.Enqueue(m.Serialize());
             mutex.ReleaseMutex();
             waitHandle.Set();
@@ -64,7 +61,7 @@ namespace BouncingBalls.Data
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    var m = GetMessages();
+                    Queue<string> m = GetMessages();
                     if(m != null)
                         while (m.Count > 0)
                         {
@@ -78,12 +75,12 @@ namespace BouncingBalls.Data
         private Queue<String> GetMessages()
         {
             mutex.WaitOne();
-            if(messages.Count ==0)
+            if(messages.Count==0)
             {
                 mutex.ReleaseMutex();
                 return null;
             }
-            var m = new Queue<string>(messages);
+            Queue<string> m = new Queue<string>(messages);
             messages.Clear();
             mutex.ReleaseMutex();
             return m;

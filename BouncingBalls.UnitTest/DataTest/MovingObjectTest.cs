@@ -45,14 +45,7 @@ namespace BouncingBalls.UnitTest
             Assert.AreEqual(speedX2, ball.SpeedX);
             ball.SpeedY = speedY2;
             Assert.AreEqual(speedY2, ball.SpeedY);
-        }
 
-        [Test]
-        public void MoveTest()
-        {
-            ball.Move(timeDelta);
-            Assert.AreEqual(x + speedX * timeDelta, ball.X);
-            Assert.AreEqual(y + speedY * timeDelta, ball.Y);
         }
     }
 }
