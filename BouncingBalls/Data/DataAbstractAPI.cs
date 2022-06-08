@@ -11,11 +11,11 @@ namespace BouncingBalls.Data
         /// <summary>
         /// Szerokość obszaru, po którym poruszają się kule.
         /// </summary>
-        public abstract int BoardWidth { get;  }
+        public abstract int BoardWidth {get;}
         /// <summary>
         /// Wysokość obszaru, po którym poruszają się kule.
         /// </summary>
-        public abstract int BoardHeight { get; }
+        public abstract int BoardHeight {get;}
         /// <summary>
         /// Dodaje poruszający się obiekt dodanych.
         /// </summary>

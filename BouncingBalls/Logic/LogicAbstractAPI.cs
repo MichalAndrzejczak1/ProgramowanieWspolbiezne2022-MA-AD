@@ -79,15 +79,7 @@ namespace BouncingBalls.Logic
         /// </summary>
         /// <returns></returns>
         public abstract bool IsRunning();
-        /// <summary>
-        /// Utwórz metodę OnPropertyChanged, aby wywołać zdarzenie. Jako parametr zostanie użyta nazwa członka wywołującego.
-        /// </summary>
-        /// <param name="ball">Kula do aktualizacji.</param>
-        /// <param name="name">Nazwa parametru.</param>
-        protected void OnPropertyChanged(MovingBall ball, [CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(ball, new PropertyChangedEventArgs(name));
-        }
+
 
         /// <summary>
         /// Tworzy warstwę logiki dla kul.
@@ -144,6 +136,7 @@ namespace BouncingBalls.Logic
                         ball.PropertyChanged += BallPositionChanged;
                         loggerApi?.Info("Creation", ball);
                         mutex.ReleaseMutex();
+                        
                         return result;
                     }
                 }
@@ -249,6 +242,17 @@ namespace BouncingBalls.Logic
                 OnPropertyChanged(ball);
                 mutex.ReleaseMutex();
             }
+
+            /// <summary>
+            /// Utwórz metodę OnPropertyChanged, aby wywołać zdarzenie. Jako parametr zostanie użyta nazwa członka wywołującego.
+            /// </summary>
+            /// <param name="ball">Kula do aktualizacji.</param>
+            /// <param name="name">Nazwa parametru.</param>
+            private void OnPropertyChanged(MovingBall ball, [CallerMemberName] string name = null)
+            {
+                PropertyChanged?.Invoke(ball, new PropertyChangedEventArgs(name));
+            }
+
             #endregion Private stuff
         }
     }

@@ -69,6 +69,8 @@ namespace BouncingBalls.Logic
                 MovingBall ball = ballsList[j];
                 if (Collision(mainBall, ball))
                 {
+                    Back(mainBall, ball);
+
                     double m1 = mainBall.Radius;
                     double m2 = ball.Radius;
                     double u1X = mainBall.SpeedX;
@@ -118,6 +120,14 @@ namespace BouncingBalls.Logic
             double y2 = b.Y + b.Radius;
 
             return Math.Sqrt((Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2)));
+        }
+
+        private void Back(MovingBall a, MovingBall b)
+        {
+            while (Collision(a, b))
+            {
+                a.Move(-1);
+            }
         }
 
     }

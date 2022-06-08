@@ -42,6 +42,12 @@ namespace BouncingBalls.Data
         public double Radius { get; private set; }
 
         /// <summary>
+        /// Porusza obiektem po określonym czasie milisekund.
+        /// </summary>
+        /// <param name="interval">Ile milisekund minęło od ostatniej aktualizacji.</param>
+        public abstract void Move(double interval);
+
+        /// <summary>
         /// Tworzy nowe zadanie ruchu obiektu.
         /// </summary>
         /// <param name="interval">Czas w milisekundach, co jaki kulka wykona ruch</param>
@@ -76,7 +82,7 @@ namespace BouncingBalls.Data
             /// Porusza kulą po określonym czasie milisekund.
             /// </summary>
             /// <param name="interval">Ile milisekund minęło od ostatniej aktualizacji.</param>
-            public void Move(double interval)
+            public override void Move(double interval)
             {
                 X += SpeedX * interval;
                 Y += SpeedY * interval;
@@ -113,6 +119,7 @@ namespace BouncingBalls.Data
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
+
 
             private readonly Stopwatch stopwatch = new Stopwatch();
             private Task task;
