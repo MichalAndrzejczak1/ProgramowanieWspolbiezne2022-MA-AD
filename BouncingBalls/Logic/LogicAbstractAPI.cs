@@ -18,10 +18,6 @@ namespace BouncingBalls.Logic
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
-        /// Czas co jaki występuje aktualizacja w milisekundach.
-        /// </summary>
-        public int Interval { get; set; }
-        /// <summary>
         /// Dodaje nowy poruszający się obiekt.
         /// </summary>
         /// <returns>Numer nowo utworzonego obiektu.</returns>
@@ -202,6 +198,7 @@ namespace BouncingBalls.Logic
             void BallPositionChanged(object sender, PropertyChangedEventArgs args)
             {
                 MovingBall ball = (MovingBall)sender;
+                loggerApi?.Info("Moving", ball);
                 Update(ball);
             }
 
@@ -232,7 +229,6 @@ namespace BouncingBalls.Logic
                     mutex.ReleaseMutex();
                     return;
                 }
-                loggerApi?.Info("Moving", ball);
                 if (service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight))
                     loggerApi?.Info("WallBounce", ball);
                 int bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
@@ -252,6 +248,11 @@ namespace BouncingBalls.Logic
             {
                 PropertyChanged?.Invoke(ball, new PropertyChangedEventArgs(name));
             }
+
+            /// <summary>
+            /// Czas co jaki występuje aktualizacja w milisekundach.
+            /// </summary>
+            public int Interval { get; set; }
 
             #endregion Private stuff
         }
