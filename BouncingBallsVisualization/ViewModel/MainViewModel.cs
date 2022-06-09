@@ -83,6 +83,8 @@ namespace BouncingBallsVisualization.ViewModel
         public void Start()
         {
             MyModel.Start();
+            MyModel.Stop();
+            MyModel.Start();
             StartIsEndabled = false;
             StopIsEndabled = true;
         }

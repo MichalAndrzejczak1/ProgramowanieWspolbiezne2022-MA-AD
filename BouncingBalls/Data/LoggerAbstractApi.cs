@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,8 +16,7 @@ namespace BouncingBalls.Data
     /// </summary>
     public abstract class LoggerAbstractApi
     {
-        public abstract void Info(String eventType, MovingBall ball);
-        public abstract void Info(String eventType, List<MovingBall> balls);
+        public abstract void Info(string data);
         /// <summary>
         /// 
         /// </summary>
@@ -34,23 +34,13 @@ namespace BouncingBalls.Data
         internal BallLogger(string logname)
         {
             filename = logname + ".log";
-            messages = new Queue<String>();
+            messages = new ConcurrentQueue<String>();
             task = Run(30, CancellationToken.None);
         }
 
-        public override void Info(string eventType, MovingBall ball)
+        public override void Info(string data)
         {
-            List<MovingBall> l = new List<MovingBall> { ball };
-            Info(eventType, l);
-        }
-
-        public override void Info(string eventType, List<MovingBall> balls)
-        {
-            mutex.WaitOne();
-            Message m = new Message($"{DateTime.Now:yyyy-MM-dd HH-mm-ss-ffff}", eventType, balls);
-            //Utrwalony stan
-            messages.Enqueue(m.Serialize());
-            mutex.ReleaseMutex();
+            messages.Enqueue(data);
             waitHandle.Set();
         }
 
@@ -61,56 +51,19 @@ namespace BouncingBalls.Data
             {
                 if (!cancellationToken.IsCancellationRequested)
                 {
-                    Queue<string> m = GetMessages();
-                    if(m != null)
-                        while (m.Count > 0)
-                        {
-                            File.AppendAllText(filename, m.Dequeue() + "\n");
-                        }
+                    while (!messages.IsEmpty)
+                    {
+                        string message;
+                        if (messages.TryDequeue(out message))
+                            File.AppendAllText(filename, message + "\n");
+                    }
                 }
                 await waitHandle.WaitAsync(cancellationToken);
             }
         }
 
-        private Queue<String> GetMessages()
-        {
-            mutex.WaitOne();
-            if(messages.Count==0)
-            {
-                mutex.ReleaseMutex();
-                return null;
-            }
-            Queue<string> m = new Queue<string>(messages);
-            messages.Clear();
-            mutex.ReleaseMutex();
-            return m;
-        }
-        private class Message
-        {
-            private string timestamp;
-            private string eventType;
-            private List<MovingBall> balls;
-
-            public string Timestamp { get => timestamp; }
-            public string EventType { get => eventType; }
-            public List<MovingBall> Balls { get => balls; }
-
-            public Message(string timestamp, string eventType, List<MovingBall> balls)
-            {
-                this.timestamp = timestamp;
-                this.eventType = eventType;
-                this.balls = balls;
-            }
-
-            public string Serialize()
-            {
-                return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-            }
-        }
-
         private readonly string filename;
-        private readonly Queue<String> messages;
-        private readonly Mutex mutex = new Mutex();
+        private readonly ConcurrentQueue<String> messages;
         private Task task;
         private readonly AsyncAutoResetEvent waitHandle = new AsyncAutoResetEvent(false);
         #endregion Private stuff

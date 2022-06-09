@@ -124,13 +124,12 @@ namespace BouncingBalls.Logic
                     double speedX = (r.NextDouble() - 0.5) / 2.0;
                     double speedY = (r.NextDouble() - 0.5) / 2.0;
 
-                    MovingBall ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray);
+                    MovingBall ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray, loggerApi);
 
                     if (dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
                     {
                         int result = dataLayer.Add(ball);
                         ball.PropertyChanged += BallPositionChanged;
-                        loggerApi?.Info("Creation", ball);
                         mutex.ReleaseMutex();
                         
                         return result;
@@ -141,7 +140,6 @@ namespace BouncingBalls.Logic
             public override void Remove(MovingBall movingBall)
             {
                 mutex.WaitOne();
-                loggerApi?.Info("Removing", movingBall);
                 dataLayer.Remove(movingBall);
                 mutex.ReleaseMutex();
             }
@@ -198,7 +196,6 @@ namespace BouncingBalls.Logic
             void BallPositionChanged(object sender, PropertyChangedEventArgs args)
             {
                 MovingBall ball = (MovingBall)sender;
-                loggerApi?.Info("Moving", ball);
                 Update(ball);
             }
 
@@ -229,11 +226,8 @@ namespace BouncingBalls.Logic
                     mutex.ReleaseMutex();
                     return;
                 }
-                if (service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight))
-                    loggerApi?.Info("WallBounce", ball);
-                int bouncedBallId = service.BallBounce(dataLayer.GetAll(), ball.Id);
-                if (bouncedBallId != -1)
-                    loggerApi?.Info("BallBounce", new List<MovingBall> { ball, dataLayer.Get(bouncedBallId) });
+                service.WallBounce(ball, dataLayer.BoardWidth, dataLayer.BoardHeight);
+                service.BallBounce(dataLayer.GetAll(), ball.Id);
 
                 OnPropertyChanged(ball);
                 mutex.ReleaseMutex();

@@ -62,13 +62,13 @@ namespace BouncingBalls.Data
             /// <summary>
             /// Tworzy kulę.
             /// </summary>
-            /// <param name="id">Numer obiektu z listy, służy jako identyfikator.</param>
-            /// <param name="x">Położenie w poziomie.</param>
-            /// <param name="y">Położenie w pionie.</param>
+            /// <param name="nid">Numer obiektu z listy, służy jako identyfikator.</param>
+            /// <param name="nx">Położenie w poziomie.</param>
+            /// <param name="ny">Położenie w pionie.</param>
             /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
-            /// <param name="radius">Promień kuli.</param>
-            public Ball(int nid, double nx, double ny, double speedX, double speedY, double nradius)
+            /// <param name="nradius">Promień kuli.</param>
+            public Ball(int nid, double nx, double ny, double speedX, double speedY, double nradius, LoggerAbstractApi logger)
             {
                 Id = nid;
                 X = nx;
@@ -76,6 +76,7 @@ namespace BouncingBalls.Data
                 SpeedX = speedX;
                 SpeedY = speedY;
                 Radius = nradius;
+                loggerApi = logger;
             }
 
             /// <summary>
@@ -86,6 +87,7 @@ namespace BouncingBalls.Data
             {
                 X += SpeedX * interval;
                 Y += SpeedY * interval;
+                loggerApi?.Info(Newtonsoft.Json.JsonConvert.SerializeObject(this));
             }
 
             public override void CreateMovementTask(int interval, CancellationToken cancellationToken)
@@ -123,6 +125,7 @@ namespace BouncingBalls.Data
 
             private readonly Stopwatch stopwatch = new Stopwatch();
             private Task task;
+            private readonly LoggerAbstractApi loggerApi = null;
             #endregion Private stuff
         }
     }
