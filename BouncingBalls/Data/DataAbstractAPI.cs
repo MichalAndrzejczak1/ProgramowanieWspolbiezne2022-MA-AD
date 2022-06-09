@@ -63,9 +63,9 @@ namespace BouncingBalls.Data
         /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
         /// <param name="radius">Promień kuli.</param>
         /// <returns>Nowa poruszająca się kula.</returns>
-        public static MovingBall CreateBall(int id, double x, double y, double speedX, double speedY, double radius, LoggerAbstractApi logger)
+        public static MovingBall CreateBall(int id, double x, double y, double speedX, double speedY, double radius, LoggerAbstractApi logger = default(LoggerAbstractApi))
         {
-            return new Ball(id, x, y, speedX, speedY, radius, logger);
+            return new Ball(id, x, y, speedX, speedY, radius, logger ?? LoggerAbstractApi.Create());
         }
         /// <summary>
         /// Zwraca promień kuli.
