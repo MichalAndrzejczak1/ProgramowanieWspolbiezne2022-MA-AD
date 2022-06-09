@@ -46,7 +46,6 @@ namespace BouncingBalls.Data
         /// </summary>
         /// <param name="interval">Ile milisekund minęło od ostatniej aktualizacji.</param>
         public abstract void Move(double interval);
-
         /// <summary>
         /// Tworzy nowe zadanie ruchu obiektu.
         /// </summary>
@@ -68,7 +67,8 @@ namespace BouncingBalls.Data
             /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
             /// <param name="nradius">Promień kuli.</param>
-            public Ball(int nid, double nx, double ny, double speedX, double speedY, double nradius, LoggerAbstractApi logger)
+            /// <param name="loggerAbstractApi">Logger zapisujący zmiany położenia.</param>
+            public Ball(int nid, double nx, double ny, double speedX, double speedY, double nradius, LoggerAbstractApi loggerAbstractApi = default(LoggerAbstractApi))
             {
                 Id = nid;
                 X = nx;
@@ -76,7 +76,7 @@ namespace BouncingBalls.Data
                 SpeedX = speedX;
                 SpeedY = speedY;
                 Radius = nradius;
-                loggerApi = logger;
+                loggerApi = loggerAbstractApi;
             }
 
             /// <summary>
@@ -122,11 +122,11 @@ namespace BouncingBalls.Data
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
             }
 
-
             private readonly Stopwatch stopwatch = new Stopwatch();
             private Task task;
-            private readonly LoggerAbstractApi loggerApi = null;
+            private LoggerAbstractApi loggerApi = null;
             #endregion Private stuff
         }
+
     }
 }

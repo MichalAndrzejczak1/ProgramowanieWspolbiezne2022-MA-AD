@@ -81,11 +81,10 @@ namespace BouncingBalls.Logic
         /// Tworzy warstwę logiki dla kul.
         /// </summary>
         /// <param name="data">API warstwy danych.</param>
-        /// <param name="logger">API logowania informacji.</param>
         /// <returns>API logiki.</returns>
-        public static LogicAbstractApi CreateLayer(DataAbstractApi data = default(DataAbstractApi), LoggerAbstractApi logger = default(LoggerAbstractApi))
+        public static LogicAbstractApi CreateLayer(DataAbstractApi data = default(DataAbstractApi))
         {
-            return new BallLogic(data ?? DataAbstractApi.Create(), logger ?? LoggerAbstractApi.Create());
+            return new BallLogic(data ?? DataAbstractApi.Create());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -103,10 +102,9 @@ namespace BouncingBalls.Logic
         /// </summary>
         internal class BallLogic : LogicAbstractApi
         {
-            public BallLogic(DataAbstractApi dataLayerApi, LoggerAbstractApi loggerAbstractApi)
+            public BallLogic(DataAbstractApi dataLayerApi)
             {
                 dataLayer = dataLayerApi;
-                loggerApi = loggerAbstractApi;
                 service = new BallService();
                 r = new Random();
                 Interval = 30;
@@ -124,7 +122,7 @@ namespace BouncingBalls.Logic
                     double speedX = (r.NextDouble() - 0.5) / 2.0;
                     double speedY = (r.NextDouble() - 0.5) / 2.0;
 
-                    MovingBall ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray, loggerApi);
+                    MovingBall ball = DataAbstractApi.CreateBall(dataLayer.Count(), x, y, speedX, speedY, ray, dataLayer.LoggerAbstractApi);
 
                     if (dataLayer.GetAll().All(u => !service.Collision((MovingBall.Ball)u, (MovingBall.Ball)ball)))
                     {
@@ -215,7 +213,6 @@ namespace BouncingBalls.Logic
             private readonly Mutex mutex = new Mutex();
             private CancellationTokenSource cancellationTokenSource;
             private CancellationToken cancellationToken;
-            private readonly LoggerAbstractApi loggerApi = null;
 
             void Update(MovingBall ball)
             {

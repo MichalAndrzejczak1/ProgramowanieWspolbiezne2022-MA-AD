@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static BouncingBalls.Data.MovingBall;
 
 namespace BouncingBalls.Data
@@ -8,6 +9,10 @@ namespace BouncingBalls.Data
     /// </summary>
     public abstract class DataAbstractApi
     {
+        /// <summary>
+        /// Zwraca logera dla danych.
+        /// </summary>
+        public abstract LoggerAbstractApi LoggerAbstractApi { get; }
         /// <summary>
         /// Szerokość obszaru, po którym poruszają się kule.
         /// </summary>
@@ -48,9 +53,9 @@ namespace BouncingBalls.Data
         /// Tworzy implementację abstrakcyjnego API w postaci tablicy kul.
         /// </summary>
         /// <returns>Implementacja API w postaci tablicy poruszających się kul.</returns>
-        public static DataAbstractApi Create()
+        public static DataAbstractApi Create(LoggerAbstractApi logger = default(LoggerAbstractApi))
         {
-            return new Board();
+            return new Board(logger ?? LoggerAbstractApi.Create());
         }
 
         /// <summary>
@@ -62,10 +67,11 @@ namespace BouncingBalls.Data
         /// <param name="speedX">Prędkość w poziomie, wartość co jaką obiekt przesunie się co milisekundę.</param>
         /// <param name="speedY">Prędkość w pionie, wartość co jaką obiekt przesunie się co milisekundę.</param>
         /// <param name="radius">Promień kuli.</param>
+        /// <param name="loggerAbstractApi">Logger zapisujący zmiany położnia.</param>
         /// <returns>Nowa poruszająca się kula.</returns>
-        public static MovingBall CreateBall(int id, double x, double y, double speedX, double speedY, double radius, LoggerAbstractApi logger = default(LoggerAbstractApi))
+        public static MovingBall CreateBall(int id, double x, double y, double speedX, double speedY, double radius, LoggerAbstractApi loggerAbstractApi = default(LoggerAbstractApi))
         {
-            return new Ball(id, x, y, speedX, speedY, radius, logger ?? LoggerAbstractApi.Create());
+            return new Ball(id, x, y, speedX, speedY, radius, loggerAbstractApi ?? LoggerAbstractApi.Create());
         }
         /// <summary>
         /// Zwraca promień kuli.
@@ -84,12 +90,15 @@ namespace BouncingBalls.Data
         {
             public override int BoardWidth => boardWidth;
             public override int BoardHeight => boardHeight;
+            public override LoggerAbstractApi LoggerAbstractApi { get => loggerApi; }
+
             /// <summary>
             /// Konstruktor, tworzy listę do przechowywania kul.
             /// </summary>
-            internal Board()
+            internal Board(LoggerAbstractApi loggerAbstractApi = default(LoggerAbstractApi))
             {
                 balls = new List<MovingBall>();
+                loggerApi = loggerAbstractApi ?? LoggerAbstractApi.Create();
                 boardWidth = 770;
                 boardHeight = 500;
             }
@@ -127,6 +136,7 @@ namespace BouncingBalls.Data
             private readonly List<MovingBall> balls;
             private int boardWidth;
             private int boardHeight;
+            private readonly LoggerAbstractApi loggerApi = null;
             #endregion Private stuff
         }
 

@@ -28,13 +28,14 @@ namespace BouncingBalls.ViewModel
     /// <param name="execute">The execution logic encapsulated by the <paramref name="execute"/> delegate. </param>
     /// <exception cref="T:System.ArgumentNullException">If the <paramref name="execute"/> argument is null.</exception>
     public RelayCommand(Action execute) : this(execute, null) { }
-    /// <summary>
-    /// Initializes a new instance of the RelayCommand class.
-    /// </summary>
-    /// <param name="canExecute">The execution status logic encapsulated by the <paramref name="canExecute"/> delegate.
-    /// </param>
-    /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
-    public RelayCommand(Action execute, Func<bool> canExecute)
+        /// <summary>
+        /// Initializes a new instance of the RelayCommand class.
+        /// </summary>
+        /// <param name="execute">Akcja do wykonania.</param>
+        /// <param name="canExecute">The execution status logic encapsulated by the <paramref name="canExecute"/> delegate.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
+        public RelayCommand(Action execute, Func<bool> canExecute)
     {
       this.mExecute = execute ?? throw new ArgumentNullException(nameof(execute));
       this.mCanExecute = canExecute;

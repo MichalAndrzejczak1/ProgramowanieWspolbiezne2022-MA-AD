@@ -12,7 +12,6 @@ namespace BouncingBalls.UnitTest
         private readonly double x2 = 300;
         private readonly double y2 = 400;
         private readonly double speedX2 = -5.0, speedY2 = 6.0;
-        private readonly double timeDelta = 10;
 
         public MovingObjectDataTest()
         {

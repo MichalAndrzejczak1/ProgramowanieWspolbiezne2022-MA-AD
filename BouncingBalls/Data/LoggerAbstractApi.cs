@@ -44,6 +44,7 @@ namespace BouncingBalls.Data
             waitHandle.Set();
         }
 
+
         #region Private stuff
         private async Task Run(int interval, CancellationToken cancellationToken)
         {
@@ -58,7 +59,7 @@ namespace BouncingBalls.Data
                             File.AppendAllText(filename, message + "\n");
                     }
                 }
-                await waitHandle.WaitAsync(cancellationToken);
+                await waitHandle.WaitAsync();
             }
         }
 
