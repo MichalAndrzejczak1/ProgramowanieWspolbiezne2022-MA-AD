@@ -16,7 +16,7 @@ namespace BouncingBalls.Data
     /// </summary>
     public abstract class LoggerAbstractApi
     {
-        public abstract void Info(string data);
+        internal abstract void Info(string data);
         /// <summary>
         /// 
         /// </summary>
@@ -38,7 +38,7 @@ namespace BouncingBalls.Data
             task = Run(30, CancellationToken.None);
         }
 
-        public override void Info(string data)
+        internal override void Info(string data)
         {
             messages.Enqueue(data);
             waitHandle.Set();
