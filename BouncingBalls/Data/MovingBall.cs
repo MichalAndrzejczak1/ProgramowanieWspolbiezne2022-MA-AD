@@ -87,7 +87,6 @@ namespace BouncingBalls.Data
             {
                 X += SpeedX * interval;
                 Y += SpeedY * interval;
-                loggerApi?.Info(Newtonsoft.Json.JsonConvert.SerializeObject(this));
             }
 
             public override void CreateMovementTask(int interval, CancellationToken cancellationToken)
@@ -105,6 +104,7 @@ namespace BouncingBalls.Data
                     if (!cancellationToken.IsCancellationRequested)
                     {
                         Move(interval);
+                        loggerApi?.Info(Newtonsoft.Json.JsonConvert.SerializeObject(this));
                         OnPropertyChanged();
                     }
                     stopwatch.Stop();
